@@ -2,7 +2,7 @@ package com.example.undevezhtriger.data.model
 
 //Word
 data class Ger (
-    val id: String = "",
+    val id: Long,
     val french: String = "",
     val breton: String = "",
     val description: String = "",
