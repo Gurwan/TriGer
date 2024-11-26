@@ -7,8 +7,8 @@ data class Ger (
     val breton: String = "",
     val description: String = "",
     val example: String = "",
-    var isLearned: Boolean = false,
-    var isFavorite: Boolean = false,
-    var lastLearningDate: String = "",
-    var levelLearnings: Int = 0
+    val isLearned: Boolean = false,
+    val isFavorite: Boolean = false,
+    val lastLearningDate: String = "",
+    val levelLearnings: Int = 0
 )

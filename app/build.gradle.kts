@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.undevezhtriger"
+    namespace = "com.okariastudio.undevezhtriger"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.undevezhtriger"
+        applicationId = "com.okariastudio.undevezhtriger"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
