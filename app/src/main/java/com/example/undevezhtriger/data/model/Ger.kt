@@ -1,8 +1,11 @@
 package com.example.undevezhtriger.data.model
 
-//Word
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "ger")
 data class Ger (
-    val id: Long,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0L,
     val french: String = "",
     val breton: String = "",
     val description: String = "",
