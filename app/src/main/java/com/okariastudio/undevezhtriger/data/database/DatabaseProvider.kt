@@ -11,7 +11,7 @@ object DatabaseProvider {
             val newInstance = Room.databaseBuilder(
                 context.applicationContext,
                 AppDatabase::class.java,
-                "undevezhtriger.db"
+                AppDatabase.DATABASE_NAME
             ).build()
             instance = newInstance
             newInstance

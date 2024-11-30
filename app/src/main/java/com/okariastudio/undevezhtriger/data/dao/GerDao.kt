@@ -12,6 +12,12 @@ interface GerDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(ger: Ger)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(gers: List<Ger>)
+
+    @Query("SELECT id FROM ger")
+    suspend fun getAllIds(): List<String>
+
     @Query("SELECT * FROM ger WHERE id = :id")
     suspend fun getById(id: Long): Ger?
 

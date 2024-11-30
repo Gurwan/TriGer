@@ -1,6 +1,8 @@
 package com.okariastudio.undevezhtriger.data.database
 
+import android.content.Context
 import androidx.room.Database
+import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.okariastudio.undevezhtriger.data.dao.BrezhodexSectionDao
@@ -20,11 +22,17 @@ import com.okariastudio.undevezhtriger.data.source.Converters
     version = 1,
     exportSchema = false
 )
-@TypeConverters(Converters::class)
+@TypeConverters(Converters::class) // Si vous avez des types nécessitant une conversion
 abstract class AppDatabase : RoomDatabase() {
+
     abstract fun gerDao(): GerDao
     abstract fun brezhodexSectionDao(): BrezhodexSectionDao
     abstract fun quizDao(): QuizDao
     abstract fun settingsDao(): SettingsDao
     abstract fun statistiquesDao(): StatistiquesDao
+
+    companion object {
+        const val DATABASE_NAME = "undevezhtriger.db"
+    }
 }
+
