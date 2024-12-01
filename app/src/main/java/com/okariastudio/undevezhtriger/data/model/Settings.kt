@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "settings")
 data class Settings(
-    @PrimaryKey val id: Long = 1L,
+    @PrimaryKey(autoGenerate = true) val id: Long = 1L,
     val enableNotifications: Boolean = true,
     val darkMode: Boolean = false
 )

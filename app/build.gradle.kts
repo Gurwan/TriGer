@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("com.google.devtools.ksp")
     id("com.google.gms.google-services")
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -79,4 +80,9 @@ dependencies {
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.messaging.ktx)
     implementation(libs.firebase.analytics.ktx)
+
+    implementation(libs.androidx.room.ktx)
+
+    androidTestImplementation(platform(libs.androidx.compose.bom.v20230300))
+    androidTestImplementation(libs.ui.test.junit4)
 }

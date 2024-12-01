@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "ger")
 data class Ger (
-    val id: String = "",
+    @PrimaryKey val id: String = "",
     val french: String = "",
     val breton: String = "",
     val description: String = "",
