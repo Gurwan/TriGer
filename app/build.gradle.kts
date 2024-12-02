@@ -61,6 +61,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.navigation.runtime.ktx)
+    implementation(libs.androidx.navigation.compose)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -85,4 +87,12 @@ dependencies {
 
     androidTestImplementation(platform(libs.androidx.compose.bom.v20230300))
     androidTestImplementation(libs.ui.test.junit4)
+    implementation(libs.ui)
+    implementation(libs.material3)
+    implementation(libs.androidx.material)
+
+
+    implementation(libs.androidx.navigation.compose.v273)
+
+    implementation(libs.androidx.lifecycle.runtime.compose)
 }
