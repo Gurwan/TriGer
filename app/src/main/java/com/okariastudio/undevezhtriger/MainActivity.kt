@@ -12,7 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.okariastudio.undevezhtriger.data.database.DatabaseProvider
 import com.okariastudio.undevezhtriger.data.firebase.FirebaseService
+import com.okariastudio.undevezhtriger.data.model.Ger
 import com.okariastudio.undevezhtriger.data.repository.GerRepository
+import com.okariastudio.undevezhtriger.ui.templates.GerList
 import com.okariastudio.undevezhtriger.ui.theme.UnDevezhTriGerTheme
 import com.okariastudio.undevezhtriger.viewmodel.MainViewModel
 
@@ -41,7 +43,26 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun DeskinScreen(mainViewModel: MainViewModel) {
-    Text(text = "Apprenez 3 nouveaux mots ici", modifier = Modifier.fillMaxSize())
+    val sampleGers = listOf(
+        Ger(
+            id = "1",
+            breton = "Kalon",
+            french = "Cœur",
+            description = "Organe principal de la circulation sanguine chez les êtres vivants.",
+            example = "Me 'gav din eo bet boulc'het ma c'halon gant ho mouezh.",
+            isLearned = true
+        ),
+        Ger(
+            id = "2",
+            breton = "Bugel",
+            french = "Enfant",
+            description = "Personne jeune, entre la naissance et l'adolescence.",
+            example = "Ar bugel a zo o c'hoarzhin dindan an heol.",
+            isLearned = false
+        )
+    )
+
+    GerList(gerList = sampleGers)
 }
 
 @Composable
