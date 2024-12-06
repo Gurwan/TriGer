@@ -25,7 +25,7 @@ interface GerDao {
     suspend fun getLearnedWords(): List<Ger>
 
     @Query("SELECT * FROM ger WHERE isLearned = 0 LIMIT 3")
-    suspend fun getWordsForToday(): List<Ger>
+    suspend fun getGerForToday(): List<Ger>
 
     @Query("UPDATE ger SET isLearned = 1 WHERE id = :id")
     suspend fun markAsLearned(id: Long)

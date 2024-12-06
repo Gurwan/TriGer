@@ -2,7 +2,6 @@ package com.okariastudio.undevezhtriger.ui.templates
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +11,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,7 +33,7 @@ import com.okariastudio.undevezhtriger.data.model.Ger
 import com.okariastudio.undevezhtriger.ui.theme.UnDevezhTriGerTheme
 
 @Composable
-fun GerCard(ger: Ger, modifier: Modifier = Modifier) {
+fun GerCard(ger: Ger, modifier: Modifier = Modifier, onDeskinClick: (Ger) -> Unit = {}) {
     var isExpanded by remember { mutableStateOf(false) }
 
     Card(
@@ -43,7 +44,6 @@ fun GerCard(ger: Ger, modifier: Modifier = Modifier) {
     ) {
         Column(
             modifier = Modifier
-                .background(color = Color.Cyan)
                 .padding(16.dp)
                 .animateContentSize()
         ) {
@@ -56,6 +56,16 @@ fun GerCard(ger: Ger, modifier: Modifier = Modifier) {
                     style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier.weight(1f)
                 )
+                Button(
+                    onClick = { onDeskinClick(ger) },
+                    modifier = Modifier.padding(start = 8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.tertiary,
+                        contentColor = MaterialTheme.colorScheme.onTertiary
+                    ),
+                ) {
+                    Text(text = "Deskiñ", color = Color.Black)
+                }
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -97,8 +107,18 @@ fun GerCard(ger: Ger, modifier: Modifier = Modifier) {
 
 @Preview(showBackground = true)
 @Composable
-fun Preview() {
+fun PreviewGerCard() {
     UnDevezhTriGerTheme {
-        GerCard(Ger("id", "french", "breton", "description", "example"))
+        GerCard(
+            ger = Ger(
+                id = "1",
+                breton = "Kig-ha-farz",
+                french = "Potée bretonne",
+                description = "Un plat traditionnel de Bretagne.",
+                example = "Me o deus debret ur kig-ha-farz brav er Sul-mañ !"
+            ),
+            onDeskinClick = { ger -> println("Deskin clicked for ${ger.breton}") }
+        )
     }
 }
+

@@ -3,16 +3,22 @@ package com.okariastudio.undevezhtriger
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.okariastudio.undevezhtriger.data.database.DatabaseProvider
 import com.okariastudio.undevezhtriger.data.firebase.FirebaseService
-import com.okariastudio.undevezhtriger.data.model.Ger
 import com.okariastudio.undevezhtriger.data.repository.GerRepository
 import com.okariastudio.undevezhtriger.ui.templates.GerList
 import com.okariastudio.undevezhtriger.ui.theme.UnDevezhTriGerTheme
@@ -43,26 +49,24 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun DeskinScreen(mainViewModel: MainViewModel) {
-    val sampleGers = listOf(
-        Ger(
-            id = "1",
-            breton = "Kalon",
-            french = "Cœur",
-            description = "Organe principal de la circulation sanguine chez les êtres vivants.",
-            example = "Me 'gav din eo bet boulc'het ma c'halon gant ho mouezh.",
-            isLearned = true
-        ),
-        Ger(
-            id = "2",
-            breton = "Bugel",
-            french = "Enfant",
-            description = "Personne jeune, entre la naissance et l'adolescence.",
-            example = "Ar bugel a zo o c'hoarzhin dindan an heol.",
-            isLearned = false
-        )
-    )
+    val gersToday by mainViewModel.gersToday.observeAsState(emptyList())
 
-    GerList(gerList = sampleGers)
+    LaunchedEffect(Unit) {
+        mainViewModel.fetchGersForToday()
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        if (gersToday.isEmpty()) {
+            Text("Pas de mots pour aujourd'hui", style = MaterialTheme.typography.bodyMedium)
+        } else {
+            GerList(gersToday)
+        }
+    }
 }
 
 @Composable

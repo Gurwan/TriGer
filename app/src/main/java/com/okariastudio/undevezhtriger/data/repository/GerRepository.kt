@@ -7,7 +7,7 @@ import com.okariastudio.undevezhtriger.data.model.Ger
 class GerRepository(private val gerDao: GerDao, private val firebaseService: FirebaseService) {
     suspend fun insertGer(ger: Ger) = gerDao.insert(ger)
 
-    suspend fun getWordsForToday(): List<Ger> = gerDao.getWordsForToday()
+    suspend fun getGerForToday(): List<Ger> = gerDao.getGerForToday()
 
     suspend fun markAsLearned(id: Long) = gerDao.markAsLearned(id)
 
