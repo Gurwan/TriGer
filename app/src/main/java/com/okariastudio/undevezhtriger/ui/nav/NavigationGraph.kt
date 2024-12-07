@@ -21,7 +21,7 @@ fun NavigationGraph(
             DeskinScreen(mainViewModel)
         }
         composable("brezhodex") {
-            BrezhodexScreen()
+            BrezhodexScreen(mainViewModel)
         }
         composable("arventennoù") {
             ArventennouScreen()

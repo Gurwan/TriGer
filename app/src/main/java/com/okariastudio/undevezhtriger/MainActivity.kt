@@ -70,8 +70,25 @@ fun DeskinScreen(mainViewModel: MainViewModel) {
 }
 
 @Composable
-fun BrezhodexScreen() {
-    Text(text = "Bienvenue dans Brezhodex!", modifier = Modifier.fillMaxSize())
+fun BrezhodexScreen(mainViewModel: MainViewModel) {
+    val gersBrezhodex by mainViewModel.gersBrezhodex.observeAsState(emptyList())
+
+    LaunchedEffect(Unit) {
+        mainViewModel.fetchGersInBrezhodex()
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        if (gersBrezhodex.isEmpty()) {
+            Text("Pas de mots dans le Brezhodex", style = MaterialTheme.typography.bodyMedium)
+        } else {
+            GerList(gersBrezhodex)
+        }
+    }
 }
 
 @Composable

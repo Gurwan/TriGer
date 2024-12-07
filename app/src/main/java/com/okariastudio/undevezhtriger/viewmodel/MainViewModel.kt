@@ -16,10 +16,20 @@ class MainViewModel(
     private val _gersToday = MutableLiveData<List<Ger>>()
     val gersToday: LiveData<List<Ger>> = _gersToday
 
+    private val _gersBrezhodex = MutableLiveData<List<Ger>>()
+    val gersBrezhodex: LiveData<List<Ger>> = _gersBrezhodex
+
     fun fetchGersForToday() {
         viewModelScope.launch {
             val gers = gerRepository.getGerForToday()
             _gersToday.postValue(gers)
+        }
+    }
+
+    fun fetchGersInBrezhodex() {
+        viewModelScope.launch {
+            val geriou = gerRepository.getGeriouInBrezhodex()
+            _gersBrezhodex.postValue(geriou)
         }
     }
 

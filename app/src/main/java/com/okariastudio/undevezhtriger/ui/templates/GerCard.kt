@@ -64,7 +64,11 @@ fun GerCard(ger: Ger, modifier: Modifier = Modifier, onDeskinClick: (Ger) -> Uni
                         contentColor = MaterialTheme.colorScheme.onTertiary
                     ),
                 ) {
-                    Text(text = "Deskiñ", color = Color.Black)
+                    if(ger.isLearned){
+                        Text(text = "Azgwelet", color = Color.Black)
+                    } else {
+                        Text(text = "Deskiñ", color = Color.Black)
+                    }
                 }
             }
 
