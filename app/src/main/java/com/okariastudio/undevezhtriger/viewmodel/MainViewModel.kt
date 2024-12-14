@@ -16,6 +16,9 @@ class MainViewModel(
     private val _gersToday = MutableLiveData<List<Ger>>()
     val gersToday: LiveData<List<Ger>> = _gersToday
 
+    private val _wrongGeriou = MutableLiveData<List<String>>()
+    val wrongGeriou: LiveData<List<String>> = _wrongGeriou
+
     private val _gersBrezhodex = MutableLiveData<List<Ger>>()
     val gersBrezhodex: LiveData<List<Ger>> = _gersBrezhodex
 
@@ -23,6 +26,14 @@ class MainViewModel(
         viewModelScope.launch {
             val gers = gerRepository.getGerForToday()
             _gersToday.postValue(gers)
+        }
+    }
+
+    fun fetchWrongGersForQuiz(idGoodGer: String) {
+        viewModelScope.launch {
+            val geriou = gerRepository.getWrongGerForQuiz(idGoodGer)
+            val ids = geriou.map { it.id }
+            _wrongGeriou.postValue(ids)
         }
     }
 

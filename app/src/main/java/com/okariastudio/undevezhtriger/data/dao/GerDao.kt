@@ -21,6 +21,9 @@ interface GerDao {
     @Query("SELECT * FROM ger WHERE id = :id")
     suspend fun getById(id: Long): Ger?
 
+    @Query("SELECT * FROM ger WHERE id != :idGoodGer LIMIT 7")
+    suspend fun getWrongGerForQuiz(idGoodGer: String): List<Ger>
+
     @Query("SELECT * FROM ger WHERE isLearned = 1")
     suspend fun getLearnedWords(): List<Ger>
 

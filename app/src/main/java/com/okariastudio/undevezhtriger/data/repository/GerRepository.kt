@@ -9,6 +9,8 @@ class GerRepository(private val gerDao: GerDao, private val firebaseService: Fir
 
     suspend fun getGerForToday(): List<Ger> = gerDao.getGerForToday()
 
+    suspend fun getWrongGerForQuiz(idGoodGer: String): List<Ger> = gerDao.getWrongGerForQuiz(idGoodGer)
+
     suspend fun getGeriouInBrezhodex(): List<Ger> = gerDao.getLearnedWords()
 
     suspend fun markAsLearned(id: Long) = gerDao.markAsLearned(id)
