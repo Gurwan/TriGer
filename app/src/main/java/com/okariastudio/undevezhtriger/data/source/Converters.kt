@@ -19,4 +19,10 @@ class Converters {
         val list: List<Long> = Json.decodeFromString(value)
         return list.toMutableList()
     }
+
+    @TypeConverter
+    fun fromStringListToString(list: List<String?>): String = Json.encodeToString(list)
+
+    @TypeConverter
+    fun fromStringToStringList(value: String): List<String?> = Json.decodeFromString(value)
 }

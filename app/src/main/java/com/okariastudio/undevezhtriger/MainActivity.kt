@@ -52,6 +52,7 @@ fun DeskinScreen(mainViewModel: MainViewModel) {
     val gersToday by mainViewModel.gersToday.observeAsState(emptyList())
 
     LaunchedEffect(Unit) {
+        mainViewModel.synchronizeData()
         mainViewModel.fetchGersForToday()
     }
 
@@ -64,7 +65,7 @@ fun DeskinScreen(mainViewModel: MainViewModel) {
         if (gersToday.isEmpty()) {
             Text("Pas de mots pour aujourd'hui", style = MaterialTheme.typography.bodyMedium)
         } else {
-            GerList(gersToday)
+            GerList(gersToday, mainViewModel = mainViewModel)
         }
     }
 }
@@ -86,7 +87,7 @@ fun BrezhodexScreen(mainViewModel: MainViewModel) {
         if (gersBrezhodex.isEmpty()) {
             Text("Pas de mots dans le Brezhodex", style = MaterialTheme.typography.bodyMedium)
         } else {
-            GerList(gersBrezhodex)
+            GerList(gersBrezhodex, mainViewModel = mainViewModel)
         }
     }
 }

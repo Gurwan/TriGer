@@ -22,7 +22,7 @@ import com.okariastudio.undevezhtriger.data.source.Converters
     version = 1,
     exportSchema = false
 )
-@TypeConverters(Converters::class) // Si vous avez des types nécessitant une conversion
+@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun gerDao(): GerDao
