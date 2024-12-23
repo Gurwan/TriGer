@@ -3,6 +3,7 @@ package com.okariastudio.undevezhtriger
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,22 +18,36 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
 import com.okariastudio.undevezhtriger.data.database.DatabaseProvider
 import com.okariastudio.undevezhtriger.data.firebase.FirebaseService
 import com.okariastudio.undevezhtriger.data.repository.GerRepository
 import com.okariastudio.undevezhtriger.ui.templates.GerList
 import com.okariastudio.undevezhtriger.ui.theme.UnDevezhTriGerTheme
 import com.okariastudio.undevezhtriger.viewmodel.MainViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashscreen = installSplashScreen()
+        var keepSplashScreen = true
         super.onCreate(savedInstanceState)
+        splashscreen.setKeepOnScreenCondition { keepSplashScreen }
 
         val gerRepository = GerRepository(
             gerDao = DatabaseProvider.getDatabase(this).gerDao(),
             firebaseService = FirebaseService()
         )
         val mainViewModel = MainViewModel(gerRepository)
+
+        lifecycleScope.launch {
+            mainViewModel.synchronizeData()
+            delay(3000)
+            keepSplashScreen = false
+        }
+        enableEdgeToEdge()
 
         setContent {
             UnDevezhTriGerTheme {
@@ -52,7 +67,6 @@ fun DeskinScreen(mainViewModel: MainViewModel) {
     val gersToday by mainViewModel.gersToday.observeAsState(emptyList())
 
     LaunchedEffect(Unit) {
-        mainViewModel.synchronizeData()
         mainViewModel.fetchGersForToday()
     }
 
