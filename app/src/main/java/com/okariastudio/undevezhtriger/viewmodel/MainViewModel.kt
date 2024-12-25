@@ -6,7 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.okariastudio.undevezhtriger.data.model.Ger
+import com.okariastudio.undevezhtriger.data.model.Quiz
 import com.okariastudio.undevezhtriger.data.repository.GerRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class MainViewModel(
@@ -16,11 +20,11 @@ class MainViewModel(
     private val _gersToday = MutableLiveData<List<Ger>>()
     val gersToday: LiveData<List<Ger>> = _gersToday
 
-    private val _wrongGeriou = MutableLiveData<List<String>>()
-    val wrongGeriou: LiveData<List<String>> = _wrongGeriou
-
     private val _gersBrezhodex = MutableLiveData<List<Ger>>()
     val gersBrezhodex: LiveData<List<Ger>> = _gersBrezhodex
+
+    private val _currentQuizItem = MutableStateFlow<Quiz?>(null)
+    val currentQuizItem: StateFlow<Quiz?> = _currentQuizItem
 
     fun fetchGersForToday() {
         viewModelScope.launch {
@@ -29,11 +33,20 @@ class MainViewModel(
         }
     }
 
-    fun fetchWrongGersForQuiz(idGoodGer: String) {
-        viewModelScope.launch {
-            val geriou = gerRepository.getWrongGerForQuiz(idGoodGer)
-            val ids = geriou.map { it.id }
-            _wrongGeriou.postValue(ids)
+    fun fetchWrongGersForQuiz(exactWordId: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val wrongGers = gerRepository.getWrongGerForQuiz(exactWordId)
+                val exactWord = gerRepository.getGerById(exactWordId)
+                val quizItem = Quiz(
+                    exactWord = exactWord,
+                    score = 0,
+                    words = wrongGers
+                )
+                _currentQuizItem.value = quizItem
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 

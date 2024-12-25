@@ -19,7 +19,7 @@ interface GerDao {
     suspend fun getAllIds(): List<String>
 
     @Query("SELECT * FROM ger WHERE id = :id")
-    suspend fun getById(id: Long): Ger?
+    suspend fun getById(id: String): Ger?
 
     @Query("SELECT * FROM ger WHERE id != :idGoodGer LIMIT 7")
     suspend fun getWrongGerForQuiz(idGoodGer: String): List<Ger>

@@ -13,6 +13,8 @@ class GerRepository(private val gerDao: GerDao, private val firebaseService: Fir
 
     suspend fun getGeriouInBrezhodex(): List<Ger> = gerDao.getLearnedWords()
 
+    suspend fun getGerById(id: String): Ger? = gerDao.getById(id)
+
     suspend fun markAsLearned(id: Long) = gerDao.markAsLearned(id)
 
     suspend fun updateFavoriteStatus(id: Long, isFavorite: Boolean) =
