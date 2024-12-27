@@ -5,6 +5,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.okariastudio.triger.data.firebase.Tracking
 import com.okariastudio.triger.ui.nav.BottomNavBar
 import com.okariastudio.triger.ui.nav.NavigationGraph
 import com.okariastudio.triger.viewmodel.MainViewModel

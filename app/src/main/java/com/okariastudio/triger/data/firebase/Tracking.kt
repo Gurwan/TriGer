@@ -9,6 +9,7 @@ class Tracking(private val context: Context) {
 
     fun logGerLearned(ger: String) {
         analytics.logEvent("ger_learned") {
+            param("deskin", 1)
             param("ger", ger)
         }
     }

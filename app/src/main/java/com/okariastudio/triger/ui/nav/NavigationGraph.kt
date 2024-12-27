@@ -12,6 +12,7 @@ import com.okariastudio.triger.BrezhodexScreen
 import com.okariastudio.triger.DeskinScreen
 import com.okariastudio.triger.QuizScreen
 import com.okariastudio.triger.QuizWriteScreen
+import com.okariastudio.triger.data.firebase.Tracking
 import com.okariastudio.triger.viewmodel.MainViewModel
 
 @Composable
@@ -46,11 +47,13 @@ fun NavigationGraph(
         }
         composable("quizWrite") {
             val quizItem by mainViewModel.currentQuizItem.collectAsState()
+            val tracking = Tracking(context = navController.context)
 
             quizItem?.let {
                 QuizWriteScreen(
                     quizItem = it,
                     onNext = {
+                        tracking.logGerLearned(it.exactWord?.breton ?: "")
                         mainViewModel.validateQuiz(it)
                         navController.navigate("brezhodex")
                     }

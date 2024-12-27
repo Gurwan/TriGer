@@ -23,6 +23,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavHostController
 import com.okariastudio.triger.data.database.DatabaseProvider
 import com.okariastudio.triger.data.firebase.FirebaseService
+import com.okariastudio.triger.data.firebase.Tracking
 import com.okariastudio.triger.data.repository.GerRepository
 import com.okariastudio.triger.ui.templates.GerList
 import com.okariastudio.triger.ui.theme.UnDevezhTriGerTheme
