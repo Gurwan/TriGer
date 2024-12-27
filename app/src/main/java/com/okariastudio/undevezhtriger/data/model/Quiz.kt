@@ -1,7 +1,0 @@
-package com.okariastudio.undevezhtriger.data.model
-
-data class Quiz(
-    val words: List<Ger?> = emptyList(),
-    val exactWord: Ger? = null,
-    val score: Int = 0
-)

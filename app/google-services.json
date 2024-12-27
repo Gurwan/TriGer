@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:423246258884:android:f151d776442b8159769f91",
+        "android_client_info": {
+          "package_name": "com.okariastudio.triger"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDR4yoHKNAYNwdbt0fXt1b4PDqF0hkdltg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:423246258884:android:75db856c05b7ed79769f91",
         "android_client_info": {
           "package_name": "com.okariastudio.undevezhtriger"
