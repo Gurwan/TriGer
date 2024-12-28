@@ -78,7 +78,7 @@ fun QuizWriteScreen(
         TextField(
             value = userInput,
             onValueChange = { userInput = it },
-            label = { Text("Ho respont") },
+            label = { Text("Ta réponse") },
             modifier = Modifier.fillMaxWidth(),
             isError = !isCorrectAnswer && userInput.isNotEmpty()
         )
@@ -90,7 +90,7 @@ fun QuizWriteScreen(
             },
             modifier = Modifier.padding(top = 16.dp)
         ) {
-            Text("Gwiriekaat")
+            Text("Soumettre")
         }
 
         if (isCorrectAnswer) {
@@ -104,7 +104,7 @@ fun QuizWriteScreen(
                 onClick = onNext,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Da-heul")
+                Text("Suivant")
             }
         }
     }

@@ -22,7 +22,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.okariastudio.triger.data.model.Ger
 import com.okariastudio.triger.data.model.Quiz
-import com.okariastudio.triger.viewmodel.MainViewModel
 
 @Composable
 fun QuizScreen(quizItem: Quiz, onNext: () -> Unit) {
@@ -72,7 +71,7 @@ fun QuizScreen(quizItem: Quiz, onNext: () -> Unit) {
         if (showNextButton) {
             Spacer(modifier = Modifier.height(24.dp))
             Button(onClick = onNext) {
-                Text("Da-heul")
+                Text("Suivant")
             }
         }
     }

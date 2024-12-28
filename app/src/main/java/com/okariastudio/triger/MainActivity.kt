@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -23,7 +25,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavHostController
 import com.okariastudio.triger.data.database.DatabaseProvider
 import com.okariastudio.triger.data.firebase.FirebaseService
-import com.okariastudio.triger.data.firebase.Tracking
 import com.okariastudio.triger.data.repository.GerRepository
 import com.okariastudio.triger.ui.templates.GerList
 import com.okariastudio.triger.ui.theme.UnDevezhTriGerTheme
@@ -78,10 +79,23 @@ fun DeskinScreen(mainViewModel: MainViewModel, navController: NavHostController)
             .padding(16.dp),
         contentAlignment = Alignment.Center
     ) {
-        if (gersToday.isEmpty()) {
-            Text("Pas de mots pour aujourd'hui", style = MaterialTheme.typography.bodyMedium)
-        } else {
-            GerList(gersToday, mainViewModel = mainViewModel, navController = navController)
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+
+            Text(
+                text = "Tri ger du jour",
+                style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+
+            if (gersToday.isEmpty()) {
+                Text("Pas de mots pour aujourd'hui", style = MaterialTheme.typography.bodyMedium)
+            } else {
+                GerList(gersToday, mainViewModel = mainViewModel, navController = navController)
+            }
         }
     }
 }
@@ -100,11 +114,25 @@ fun BrezhodexScreen(mainViewModel: MainViewModel, navController: NavHostControll
             .padding(16.dp),
         contentAlignment = Alignment.Center
     ) {
-        if (gersBrezhodex.isEmpty()) {
-            Text("Pas de mots dans le Brezhodex", style = MaterialTheme.typography.bodyMedium)
-        } else {
-            GerList(gersBrezhodex, mainViewModel = mainViewModel, navController = navController)
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+
+            Text(
+                text = "Ton Brezhodex",
+                style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+
+            if (gersBrezhodex.isEmpty()) {
+                Text("Pas de mots dans le Brezhodex", style = MaterialTheme.typography.bodyMedium)
+            } else {
+                GerList(gersBrezhodex, mainViewModel = mainViewModel, navController = navController)
+            }
         }
+
     }
 }
 

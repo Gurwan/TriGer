@@ -65,9 +65,9 @@ fun GerCard(ger: Ger, modifier: Modifier = Modifier, onDeskinClick: (Ger) -> Uni
                     ),
                 ) {
                     if(ger.isLearned){
-                        Text(text = "Azgwelet", color = Color.Black)
+                        Text(text = "Réviser", color = Color.Black)
                     } else {
-                        Text(text = "Deskiñ", color = Color.Black)
+                        Text(text = "Apprendre", color = Color.Black)
                     }
                 }
             }
