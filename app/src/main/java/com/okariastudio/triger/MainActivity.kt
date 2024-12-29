@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
             gerDao = DatabaseProvider.getDatabase(this).gerDao(),
             firebaseService = FirebaseService()
         )
-        val mainViewModel = MainViewModel(gerRepository)
+        val mainViewModel = MainViewModel(gerRepository, this.getSharedPreferences("Geriou", MODE_PRIVATE))
 
         lifecycleScope.launch {
             mainViewModel.synchronizeData()

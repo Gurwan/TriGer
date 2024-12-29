@@ -1,5 +1,7 @@
 package com.okariastudio.triger.viewmodel
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,9 +14,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class MainViewModel(
-    private val gerRepository: GerRepository
+    private val gerRepository: GerRepository,
+    private val preferences: SharedPreferences
 ) : ViewModel() {
 
     private val _gersToday = MutableLiveData<List<Ger>>()
@@ -28,8 +34,15 @@ class MainViewModel(
 
     fun fetchGersForToday() {
         viewModelScope.launch {
-            val gers = gerRepository.getGerForToday()
-            _gersToday.postValue(gers)
+            val todayIds = getTodayGeriouIds()
+            val geriou: List<Ger> = if (todayIds.isNotEmpty()) {
+                gerRepository.getGersByIds(todayIds)
+            } else {
+                val nevezGeriou = gerRepository.getGerForToday()
+                saveGeriouIds(nevezGeriou.map { it.id })
+                nevezGeriou
+            }
+            _gersToday.postValue(geriou)
         }
     }
 
@@ -78,6 +91,27 @@ class MainViewModel(
             } catch (e: Exception) {
                 Log.e("Sync", "Error synchronizing data: ${e.message}")
             }
+        }
+    }
+
+    private fun saveGeriouIds(ids: List<String>) {
+        val currentDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+        preferences.edit().apply {
+            putString("fetchDate", currentDate)
+            putStringSet("geriouIds", ids.toSet())
+            apply()
+        }
+    }
+
+    private fun getTodayGeriouIds(): List<String> {
+        val currentDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+        val storedDate = preferences.getString("fetchDate", null)
+        val ids = preferences.getStringSet("geriouIds", emptySet()) ?: emptySet()
+        return if (storedDate == currentDate) {
+            ids.map { it.toString() }
+        } else {
+            preferences.edit().clear().apply()
+            emptyList()
         }
     }
 }
