@@ -29,6 +29,9 @@ class MainViewModel(
     private val _gersBrezhodex = MutableLiveData<List<Ger>>()
     val gersBrezhodex: LiveData<List<Ger>> = _gersBrezhodex
 
+    private val _gersBrezhodexDevezh = MutableLiveData<List<Ger>>()
+    val gersBrezhodexDevezh: LiveData<List<Ger>> = _gersBrezhodexDevezh
+
     private val _currentQuizItem = MutableStateFlow<Quiz?>(null)
     val currentQuizItem: StateFlow<Quiz?> = _currentQuizItem
 
@@ -66,7 +69,11 @@ class MainViewModel(
     fun fetchGersInBrezhodex() {
         viewModelScope.launch {
             val geriou = gerRepository.getGeriouInBrezhodex()
-            _gersBrezhodex.postValue(geriou)
+            val todayIds = getTodayGeriouIds()
+            val devezhGeriou = geriou.filter { it.id in todayIds }
+            _gersBrezhodexDevezh.postValue(devezhGeriou)
+            val brezhodexGeriou = geriou.filter { it.id !in todayIds }
+            _gersBrezhodex.postValue(brezhodexGeriou)
         }
     }
 

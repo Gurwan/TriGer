@@ -103,6 +103,7 @@ fun DeskinScreen(mainViewModel: MainViewModel, navController: NavHostController)
 @Composable
 fun BrezhodexScreen(mainViewModel: MainViewModel, navController: NavHostController) {
     val gersBrezhodex by mainViewModel.gersBrezhodex.observeAsState(emptyList())
+    val gersBrezhodexDevezh by mainViewModel.gersBrezhodexDevezh.observeAsState(emptyList())
 
     LaunchedEffect(Unit) {
         mainViewModel.fetchGersInBrezhodex()
@@ -126,10 +127,24 @@ fun BrezhodexScreen(mainViewModel: MainViewModel, navController: NavHostControll
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
-            if (gersBrezhodex.isEmpty()) {
-                Text("Pas de mots dans le Brezhodex", style = MaterialTheme.typography.bodyMedium)
-            } else {
+            if(gersBrezhodexDevezh.isNotEmpty()){
+                Text(
+                    text = "Ger du jour",
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+                GerList(gersBrezhodexDevezh, mainViewModel = mainViewModel, navController = navController)
+            }
+
+            if(gersBrezhodex.isNotEmpty()){
+                Text(
+                    text = if(gersBrezhodexDevezh.isNotEmpty()) {"Autres ger" } else { "Ger appris" },
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
                 GerList(gersBrezhodex, mainViewModel = mainViewModel, navController = navController)
+            } else {
+                Text("Pas de mots dans le Brezhodex", style = MaterialTheme.typography.bodyMedium)
             }
         }
 
