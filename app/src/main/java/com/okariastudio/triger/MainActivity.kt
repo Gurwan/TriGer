@@ -4,11 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -25,6 +24,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavHostController
 import com.okariastudio.triger.data.database.DatabaseProvider
 import com.okariastudio.triger.data.firebase.FirebaseService
+import com.okariastudio.triger.data.model.Ger
 import com.okariastudio.triger.data.repository.GerRepository
 import com.okariastudio.triger.ui.templates.GerList
 import com.okariastudio.triger.ui.theme.UnDevezhTriGerTheme
@@ -73,28 +73,27 @@ fun DeskinScreen(mainViewModel: MainViewModel, navController: NavHostController)
         mainViewModel.fetchGersForToday()
     }
 
-    Box(
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
-        contentAlignment = Alignment.Center
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-
+        item {
             Text(
                 text = "Tri ger du jour",
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
+        }
 
-            if (gersToday.isEmpty()) {
+        if (gersToday.isEmpty()) {
+            item {
                 Text("Pas de mots pour aujourd'hui", style = MaterialTheme.typography.bodyMedium)
-            } else {
-                GerList(gersToday, mainViewModel = mainViewModel, navController = navController)
+            }
+        } else {
+            items(gersToday) { ger: Ger ->
+                GerList(listOf(ger), mainViewModel = mainViewModel, navController = navController)
             }
         }
     }
@@ -109,45 +108,60 @@ fun BrezhodexScreen(mainViewModel: MainViewModel, navController: NavHostControll
         mainViewModel.fetchGersInBrezhodex()
     }
 
-    Box(
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
-        contentAlignment = Alignment.Center
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-
+        item {
             Text(
                 text = "Ton Brezhodex",
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
+        }
 
-            if(gersBrezhodexDevezh.isNotEmpty()){
+        if (gersBrezhodexDevezh.isNotEmpty()) {
+            item {
                 Text(
                     text = "Ger du jour",
                     style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
-                GerList(gersBrezhodexDevezh, mainViewModel = mainViewModel, navController = navController)
             }
-
-            if(gersBrezhodex.isNotEmpty()){
-                Text(
-                    text = if(gersBrezhodexDevezh.isNotEmpty()) {"Autres ger" } else { "Ger appris" },
-                    style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(bottom = 8.dp)
+            items(gersBrezhodexDevezh) { ger ->
+                GerList(
+                    gerList = listOf(ger),
+                    mainViewModel = mainViewModel,
+                    navController = navController
                 )
-                GerList(gersBrezhodex, mainViewModel = mainViewModel, navController = navController)
-            } else {
-                Text("Pas de mots dans le Brezhodex", style = MaterialTheme.typography.bodyMedium)
             }
         }
 
+        if (gersBrezhodex.isNotEmpty()) {
+            item {
+                Text(
+                    text = if (gersBrezhodexDevezh.isNotEmpty()) "Autres ger" else "Ger appris",
+                    style = MaterialTheme.typography.headlineSmall,
+                    modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                )
+            }
+            items(gersBrezhodex) { ger ->
+                GerList(
+                    gerList = listOf(ger),
+                    mainViewModel = mainViewModel,
+                    navController = navController
+                )
+            }
+        } else if (gersBrezhodexDevezh.isEmpty()) {
+            item {
+                Text(
+                    text = "Pas de mots dans le Brezhodex",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+        }
     }
 }
 
