@@ -26,7 +26,10 @@ import com.okariastudio.triger.data.model.Quiz
 @Composable
 fun QuizScreen(quizItem: Quiz, onNext: () -> Unit) {
 
-    val words = remember(quizItem.words, quizItem.exactWord) { (quizItem.words + quizItem.exactWord).shuffled() }
+    val words = remember(
+        quizItem.words,
+        quizItem.exactWord
+    ) { (quizItem.words + quizItem.exactWord).shuffled() }
     var selectedWord by remember { mutableStateOf<Ger?>(null) }
     var showNextButton by remember { mutableStateOf(false) }
 
@@ -38,9 +41,11 @@ fun QuizScreen(quizItem: Quiz, onNext: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Choisir la bonne traduction pour le mot ${quizItem.exactWord?.french}:",
-            style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier.padding(bottom = 24.dp)
+            text = "Choisir la bonne traduction pour le mot ${quizItem.exactWord?.french} :",
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier
+                .padding(bottom = 24.dp)
+                .align(Alignment.CenterHorizontally)
         )
 
         words.forEach { word: Ger? ->
@@ -63,15 +68,26 @@ fun QuizScreen(quizItem: Quiz, onNext: () -> Unit) {
                 )
             ) {
                 if (word != null) {
-                    Text(text = word.breton, color = Color.White)
+                    Text(
+                        text = word.breton,
+                        color = Color.White,
+                        style = MaterialTheme.typography.headlineSmall
+                    )
                 }
             }
         }
 
         if (showNextButton) {
             Spacer(modifier = Modifier.height(24.dp))
-            Button(onClick = onNext) {
-                Text("Suivant")
+            Button(
+                onClick = onNext,
+                modifier = Modifier.padding(start = 8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.tertiary,
+                    contentColor = MaterialTheme.colorScheme.onTertiary
+                )
+            ) {
+                Text("Suivant", color = Color.Black)
             }
         }
     }

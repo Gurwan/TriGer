@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -39,7 +40,7 @@ fun QuizWriteScreen(
     ) {
         Text(
             text = "Écrivez la traduction correcte du mot :",
-            style = MaterialTheme.typography.displaySmall,
+            style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
@@ -68,7 +69,7 @@ fun QuizWriteScreen(
                             isCorrect -> Color.Green
                             else -> MaterialTheme.colorScheme.error
                         },
-                        style = MaterialTheme.typography.displayMedium,
+                        style = MaterialTheme.typography.displaySmall,
                         modifier = Modifier.padding(4.dp)
                     )
                 }
@@ -88,7 +89,11 @@ fun QuizWriteScreen(
                 val correctWord = quizItem.exactWord?.breton ?: ""
                 isCorrectAnswer = userInput.equals(correctWord, ignoreCase = true)
             },
-            modifier = Modifier.padding(top = 16.dp)
+            modifier = Modifier.padding(start = 8.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.tertiary,
+                contentColor = MaterialTheme.colorScheme.onTertiary
+            )
         ) {
             Text("Soumettre")
         }
@@ -102,7 +107,11 @@ fun QuizWriteScreen(
             )
             Button(
                 onClick = onNext,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.padding(start = 8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.tertiary,
+                    contentColor = MaterialTheme.colorScheme.onTertiary
+                )
             ) {
                 Text("Suivant")
             }
