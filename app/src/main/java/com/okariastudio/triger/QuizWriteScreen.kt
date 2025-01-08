@@ -19,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.okariastudio.triger.data.model.Quiz
 
@@ -39,13 +40,13 @@ fun QuizWriteScreen(
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = "Écrivez la traduction correcte du mot :",
+            text = stringResource(id= R.string.quiz_write_title),
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
         Text(
-            text = quizItem.exactWord?.french ?: "Kargañ...",
+            text = quizItem.exactWord?.french ?: stringResource(id= R.string.kargan),
             style = MaterialTheme.typography.displaySmall,
             modifier = Modifier.padding(bottom = 16.dp)
         )
@@ -79,7 +80,7 @@ fun QuizWriteScreen(
         TextField(
             value = userInput,
             onValueChange = { userInput = it },
-            label = { Text("Ta réponse") },
+            label = { Text(text= stringResource(id= R.string.ta_reponse)) },
             modifier = Modifier.fillMaxWidth(),
             isError = !isCorrectAnswer && userInput.isNotEmpty()
         )
@@ -95,12 +96,12 @@ fun QuizWriteScreen(
                 contentColor = MaterialTheme.colorScheme.onTertiary
             )
         ) {
-            Text("Soumettre")
+            Text(text = stringResource(id = R.string.submit))
         }
 
         if (isCorrectAnswer) {
             Text(
-                text = "Respont mat ! 🎉",
+                text = stringResource(id = R.string.bonne_reponse),
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(vertical = 16.dp)
@@ -113,7 +114,7 @@ fun QuizWriteScreen(
                     contentColor = MaterialTheme.colorScheme.onTertiary
                 )
             ) {
-                Text("Suivant")
+                Text(text = stringResource(id = R.string.suivant))
             }
         }
     }

@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -81,7 +82,7 @@ fun DeskinScreen(mainViewModel: MainViewModel, navController: NavHostController)
     ) {
         item {
             Text(
-                text = "Tri ger du jour",
+                text = stringResource(id = R.string.tri_ger_du_jour),
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
@@ -89,7 +90,7 @@ fun DeskinScreen(mainViewModel: MainViewModel, navController: NavHostController)
 
         if (gersToday.isEmpty()) {
             item {
-                Text("Pas de mots pour aujourd'hui", style = MaterialTheme.typography.bodyMedium)
+                Text(stringResource(id = R.string.no_ger_for_today), style = MaterialTheme.typography.bodyMedium)
             }
         } else {
             items(gersToday) { ger: Ger ->
@@ -116,7 +117,7 @@ fun BrezhodexScreen(mainViewModel: MainViewModel, navController: NavHostControll
     ) {
         item {
             Text(
-                text = "Ton Brezhodex",
+                text = stringResource(id = R.string.ton_brezhodex),
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
@@ -125,7 +126,7 @@ fun BrezhodexScreen(mainViewModel: MainViewModel, navController: NavHostControll
         if (gersBrezhodexDevezh.isNotEmpty()) {
             item {
                 Text(
-                    text = "Ger du jour",
+                    text = stringResource(id = R.string.ger_du_jour),
                     style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
@@ -142,7 +143,7 @@ fun BrezhodexScreen(mainViewModel: MainViewModel, navController: NavHostControll
         if (gersBrezhodex.isNotEmpty()) {
             item {
                 Text(
-                    text = if (gersBrezhodexDevezh.isNotEmpty()) "Autres ger" else "Ger appris",
+                    text = if (gersBrezhodexDevezh.isNotEmpty()) stringResource(id = R.string.autres_ger) else stringResource(id = R.string.ger_appris),
                     style = MaterialTheme.typography.headlineSmall,
                     modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
                 )
@@ -157,7 +158,7 @@ fun BrezhodexScreen(mainViewModel: MainViewModel, navController: NavHostControll
         } else if (gersBrezhodexDevezh.isEmpty()) {
             item {
                 Text(
-                    text = "Pas de mots dans le Brezhodex",
+                    text = stringResource(id = R.string.no_ger_brezhodex),
                     style = MaterialTheme.typography.bodyMedium
                 )
             }
@@ -167,7 +168,7 @@ fun BrezhodexScreen(mainViewModel: MainViewModel, navController: NavHostControll
 
 @Composable
 fun ArventennouScreen() {
-    Text(text = "Bienvenue dans les paramètres!", modifier = Modifier.fillMaxSize())
+    Text(text = stringResource(id = R.string.arventennou_welcome), modifier = Modifier.fillMaxSize())
 }
 
 

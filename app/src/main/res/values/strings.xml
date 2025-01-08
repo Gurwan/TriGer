@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Tri ger</string>
+    <string name="deskin">Deskiñ</string>
+    <string name="brezhodex">Brezhodex</string>
+    <string name="reviser">Réviser</string>
+    <string name="apprendre">Apprendre</string>
+    <string name="tri_ger_du_jour">Tri ger du jour</string>
+    <string name="no_ger_for_today">Pas de ger pour aujourd\'hui</string>
+    <string name="ton_brezhodex">Ton Brezhodex</string>
+    <string name="ger_du_jour">Ger du jour</string>
+    <string name="ger_appris">Ger appris</string>
+    <string name="autres_ger">Autres ger</string>
+    <string name="no_ger_brezhodex">Pas de ger dans ton Brezhodex</string>
+    <string name="arventennou_welcome">Bienvenue dans les paramètres!</string>
+    <string name="quiz_question">Choisir le bon mot pour la traduction de %1$s :</string>
+    <string name="suivant">Suivant</string>
+    <string name="quiz_write_title">Écrivez la traduction correcte du mot :</string>
+    <string name="kargan">Kargañ…</string>
+    <string name="ta_reponse">Ta réponse</string>
+    <string name="submit">Soumettre</string>
+    <string name="bonne_reponse">Respont mat ! 🎉</string>
 </resources>

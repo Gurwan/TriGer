@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -27,9 +28,9 @@ fun BottomNavBar(navController: NavHostController) {
             onClick = { navController.navigate("deskiñ") },
             icon = { Icon(
                 ImageVector.vectorResource(id = R.drawable.ic_deskin),
-                contentDescription = "Deskiñ",
+                contentDescription = stringResource(id = R.string.deskin),
                 tint = if (currentRoute == "Deskiñ") MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.secondary)},
-            label = { Text(text="Deskiñ", color = if (currentRoute == "Deskiñ") MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.secondary) },
+            label = { Text(text= stringResource(id = R.string.deskin), color = if (currentRoute == "Deskiñ") MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.secondary) },
             selectedContentColor = MaterialTheme.colorScheme.tertiary,
             unselectedContentColor = MaterialTheme.colorScheme.secondary
         )
@@ -38,10 +39,10 @@ fun BottomNavBar(navController: NavHostController) {
             onClick = { navController.navigate("brezhodex") },
             icon = { Icon(
                 ImageVector.vectorResource(id = R.drawable.ic_brezhodex),
-                contentDescription = "Brezhodex",
+                contentDescription = stringResource(id = R.string.brezhodex),
                 tint = if (currentRoute == "Brezhodex") MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.secondary
             ) },
-            label = { Text("Brezhodex", color = if (currentRoute == "Brezhodex") MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.secondary) },
+            label = { Text(stringResource(id = R.string.brezhodex), color = if (currentRoute == "Brezhodex") MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.secondary) },
             selectedContentColor = MaterialTheme.colorScheme.tertiary,
             unselectedContentColor = MaterialTheme.colorScheme.secondary
         )

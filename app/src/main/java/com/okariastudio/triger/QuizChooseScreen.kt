@@ -19,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.okariastudio.triger.data.model.Ger
 import com.okariastudio.triger.data.model.Quiz
@@ -41,7 +42,10 @@ fun QuizScreen(quizItem: Quiz, onNext: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Choisir la bonne traduction pour le mot ${quizItem.exactWord?.french} :",
+            text = stringResource(
+                id = R.string.quiz_question,
+                quizItem.exactWord?.french ?: ""
+            ),
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier
                 .padding(bottom = 24.dp)
@@ -87,7 +91,11 @@ fun QuizScreen(quizItem: Quiz, onNext: () -> Unit) {
                     contentColor = MaterialTheme.colorScheme.onTertiary
                 )
             ) {
-                Text("Suivant", color = Color.Black)
+                Text(
+                    text = stringResource(
+                        id = R.string.suivant
+                    ), color = Color.Black
+                )
             }
         }
     }
