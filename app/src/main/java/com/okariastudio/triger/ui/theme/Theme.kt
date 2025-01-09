@@ -10,22 +10,39 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
-private val DarkColorScheme = darkColorScheme(
-    primary = White,
-    secondary = Black,
-    tertiary = Blue
+val LightColorScheme = lightColorScheme(
+    primary = Primary,
+    onPrimary = Background,
+    secondary = Secondary,
+    onSecondary = Surface,
+    background = Background,
+    surface = Surface,
+    onBackground = TextPrimary,
+    onSurface = TextPrimary,
+    tertiary = TextSecondary,
+    error = Error,
+    outline = Success,
+    onError = Background
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = White,
-    secondary = Black,
-    tertiary = Blue
+val DarkColorScheme = darkColorScheme(
+    primary = Background,
+    onPrimary = Primary,
+    secondary = Accent,
+    onSecondary = Secondary,
+    background = Primary,
+    surface = Secondary,
+    onBackground = Accent,
+    tertiary = Accent,
+    outline = Success,
+    onSurface = Accent,
+    error = Error,
+    onError = Primary
 )
 
 @Composable
-fun UnDevezhTriGerTheme(
+fun TriGerTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {

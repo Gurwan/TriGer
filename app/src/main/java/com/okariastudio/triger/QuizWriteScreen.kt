@@ -40,14 +40,16 @@ fun QuizWriteScreen(
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = stringResource(id= R.string.quiz_write_title),
+            text = stringResource(id = R.string.quiz_write_title),
             style = MaterialTheme.typography.headlineMedium,
+            color = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
         Text(
-            text = quizItem.exactWord?.french ?: stringResource(id= R.string.kargan),
+            text = quizItem.exactWord?.french ?: stringResource(id = R.string.kargan),
             style = MaterialTheme.typography.displaySmall,
+            color = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier.padding(bottom = 16.dp)
         )
 
@@ -67,7 +69,7 @@ fun QuizWriteScreen(
                         text = letter.toString(),
                         color = when {
                             letter == ' ' -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
-                            isCorrect -> Color.Green
+                            isCorrect -> MaterialTheme.colorScheme.outline
                             else -> MaterialTheme.colorScheme.error
                         },
                         style = MaterialTheme.typography.displaySmall,
@@ -80,9 +82,14 @@ fun QuizWriteScreen(
         TextField(
             value = userInput,
             onValueChange = { userInput = it },
-            label = { Text(text= stringResource(id= R.string.ta_reponse)) },
+            label = {
+                Text(
+                    text = stringResource(id = R.string.ta_reponse),
+                    color = MaterialTheme.colorScheme.onBackground,
+                )
+            },
             modifier = Modifier.fillMaxWidth(),
-            isError = !isCorrectAnswer && userInput.isNotEmpty()
+            isError = !userInput.equals(quizItem.exactWord?.breton ?: "", ignoreCase = true) && userInput.isNotEmpty()
         )
 
         Button(
@@ -92,8 +99,8 @@ fun QuizWriteScreen(
             },
             modifier = Modifier.padding(start = 8.dp),
             colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.tertiary,
-                contentColor = MaterialTheme.colorScheme.onTertiary
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
             )
         ) {
             Text(text = stringResource(id = R.string.submit))
@@ -102,7 +109,7 @@ fun QuizWriteScreen(
         if (isCorrectAnswer) {
             Text(
                 text = stringResource(id = R.string.bonne_reponse),
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(vertical = 16.dp)
             )
@@ -110,11 +117,11 @@ fun QuizWriteScreen(
                 onClick = onNext,
                 modifier = Modifier.padding(start = 8.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.tertiary,
-                    contentColor = MaterialTheme.colorScheme.onTertiary
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
                 )
             ) {
-                Text(text = stringResource(id = R.string.suivant))
+                Text(text = stringResource(id = R.string.submit))
             }
         }
     }

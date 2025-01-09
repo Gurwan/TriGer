@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,13 +32,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.okariastudio.triger.R
 import com.okariastudio.triger.data.model.Ger
-import com.okariastudio.triger.ui.theme.UnDevezhTriGerTheme
+import com.okariastudio.triger.ui.theme.TriGerTheme
 
 @Composable
 fun GerCard(ger: Ger, modifier: Modifier = Modifier, onDeskinClick: (Ger) -> Unit = {}) {
     var isExpanded by remember { mutableStateOf(false) }
 
     Card(
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
         modifier = modifier
             .fillMaxWidth()
             .padding(8.dp)
@@ -55,20 +59,21 @@ fun GerCard(ger: Ger, modifier: Modifier = Modifier, onDeskinClick: (Ger) -> Uni
                 Text(
                     text = ger.breton,
                     style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.weight(1f)
                 )
                 Button(
                     onClick = { onDeskinClick(ger) },
                     modifier = Modifier.padding(start = 8.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.tertiary,
-                        contentColor = MaterialTheme.colorScheme.onTertiary
+                        containerColor =  MaterialTheme.colorScheme.primary,
+                        contentColor =  MaterialTheme.colorScheme.onPrimary
                     ),
                 ) {
                     if(ger.isLearned){
-                        Text(text = stringResource(id = R.string.reviser), color = Color.Black)
+                        Text(text = stringResource(id = R.string.reviser))
                     } else {
-                        Text(text = stringResource(id = R.string.apprendre), color = Color.Black)
+                        Text(text = stringResource(id = R.string.apprendre))
                     }
                 }
             }
@@ -103,7 +108,7 @@ fun GerCard(ger: Ger, modifier: Modifier = Modifier, onDeskinClick: (Ger) -> Uni
                     text = "Exemple : ${ger.example}",
                     style = MaterialTheme.typography.bodySmall,
                     fontStyle = FontStyle.Italic,
-                    color = MaterialTheme.colorScheme.primary
+                    color =  MaterialTheme.colorScheme.onPrimary
                 )
             }
         }
@@ -113,7 +118,7 @@ fun GerCard(ger: Ger, modifier: Modifier = Modifier, onDeskinClick: (Ger) -> Uni
 @Preview(showBackground = true)
 @Composable
 fun PreviewGerCard() {
-    UnDevezhTriGerTheme {
+    TriGerTheme {
         GerCard(
             ger = Ger(
                 id = "1",

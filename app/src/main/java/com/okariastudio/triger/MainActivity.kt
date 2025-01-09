@@ -28,7 +28,7 @@ import com.okariastudio.triger.data.firebase.FirebaseService
 import com.okariastudio.triger.data.model.Ger
 import com.okariastudio.triger.data.repository.GerRepository
 import com.okariastudio.triger.ui.templates.GerList
-import com.okariastudio.triger.ui.theme.UnDevezhTriGerTheme
+import com.okariastudio.triger.ui.theme.TriGerTheme
 import com.okariastudio.triger.viewmodel.MainViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -54,7 +54,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            UnDevezhTriGerTheme {
+            TriGerTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     MainContent(
                         modifier = Modifier.padding(innerPadding),
@@ -84,13 +84,14 @@ fun DeskinScreen(mainViewModel: MainViewModel, navController: NavHostController)
             Text(
                 text = stringResource(id = R.string.tri_ger_du_jour),
                 style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(bottom = 16.dp),
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
 
         if (gersToday.isEmpty()) {
             item {
-                Text(stringResource(id = R.string.no_ger_for_today), style = MaterialTheme.typography.bodyMedium)
+                Text(stringResource(id = R.string.no_ger_for_today), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onBackground)
             }
         } else {
             items(gersToday) { ger: Ger ->
@@ -119,7 +120,8 @@ fun BrezhodexScreen(mainViewModel: MainViewModel, navController: NavHostControll
             Text(
                 text = stringResource(id = R.string.ton_brezhodex),
                 style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(bottom = 16.dp),
+                color = MaterialTheme.colorScheme.onBackground,
             )
         }
 
@@ -128,7 +130,8 @@ fun BrezhodexScreen(mainViewModel: MainViewModel, navController: NavHostControll
                 Text(
                     text = stringResource(id = R.string.ger_du_jour),
                     style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(bottom = 8.dp)
+                    modifier = Modifier.padding(bottom = 8.dp),
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
             }
             items(gersBrezhodexDevezh) { ger ->
@@ -145,6 +148,7 @@ fun BrezhodexScreen(mainViewModel: MainViewModel, navController: NavHostControll
                 Text(
                     text = if (gersBrezhodexDevezh.isNotEmpty()) stringResource(id = R.string.autres_ger) else stringResource(id = R.string.ger_appris),
                     style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.onBackground,
                     modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
                 )
             }
@@ -159,7 +163,8 @@ fun BrezhodexScreen(mainViewModel: MainViewModel, navController: NavHostControll
             item {
                 Text(
                     text = stringResource(id = R.string.no_ger_brezhodex),
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
             }
         }
@@ -168,7 +173,7 @@ fun BrezhodexScreen(mainViewModel: MainViewModel, navController: NavHostControll
 
 @Composable
 fun ArventennouScreen() {
-    Text(text = stringResource(id = R.string.arventennou_welcome), modifier = Modifier.fillMaxSize())
+    Text(text = stringResource(id = R.string.arventennou_welcome), color = MaterialTheme.colorScheme.onBackground, modifier = Modifier.fillMaxSize())
 }
 
 
@@ -176,6 +181,7 @@ fun ArventennouScreen() {
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
         text = "Hello $name!",
+        color = MaterialTheme.colorScheme.onBackground,
         modifier = modifier
     )
 }
@@ -183,7 +189,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    UnDevezhTriGerTheme {
+    TriGerTheme {
         Greeting("Android")
     }
 }

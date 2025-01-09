@@ -17,8 +17,8 @@ import com.okariastudio.triger.R
 @Composable
 fun BottomNavBar(navController: NavHostController) {
     BottomNavigation(
-        backgroundColor = MaterialTheme.colorScheme.primary,
-        contentColor = MaterialTheme.colorScheme.secondary
+        backgroundColor = MaterialTheme.colorScheme.surface,
+        contentColor = MaterialTheme.colorScheme.onSurface
     ) {
         val currentDestination by navController.currentBackStackEntryAsState()
         val currentRoute = currentDestination?.destination?.route
@@ -29,10 +29,10 @@ fun BottomNavBar(navController: NavHostController) {
             icon = { Icon(
                 ImageVector.vectorResource(id = R.drawable.ic_deskin),
                 contentDescription = stringResource(id = R.string.deskin),
-                tint = if (currentRoute == "Deskiñ") MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.secondary)},
-            label = { Text(text= stringResource(id = R.string.deskin), color = if (currentRoute == "Deskiñ") MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.secondary) },
-            selectedContentColor = MaterialTheme.colorScheme.tertiary,
-            unselectedContentColor = MaterialTheme.colorScheme.secondary
+                tint = if (currentRoute == "Deskiñ") MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.tertiary)},
+            label = { Text(text= stringResource(id = R.string.deskin), color = if (currentRoute == "Deskiñ") MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.tertiary) },
+            selectedContentColor = MaterialTheme.colorScheme.onBackground,
+            unselectedContentColor = MaterialTheme.colorScheme.tertiary
         )
         BottomNavigationItem(
             selected = currentRoute == "Brezhodex",
@@ -40,11 +40,11 @@ fun BottomNavBar(navController: NavHostController) {
             icon = { Icon(
                 ImageVector.vectorResource(id = R.drawable.ic_brezhodex),
                 contentDescription = stringResource(id = R.string.brezhodex),
-                tint = if (currentRoute == "Brezhodex") MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.secondary
+                tint = if (currentRoute == "Brezhodex") MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.tertiary
             ) },
-            label = { Text(stringResource(id = R.string.brezhodex), color = if (currentRoute == "Brezhodex") MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.secondary) },
-            selectedContentColor = MaterialTheme.colorScheme.tertiary,
-            unselectedContentColor = MaterialTheme.colorScheme.secondary
+            label = { Text(stringResource(id = R.string.brezhodex), color = if (currentRoute == "Brezhodex") MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.tertiary) },
+            selectedContentColor = MaterialTheme.colorScheme.onBackground,
+            unselectedContentColor = MaterialTheme.colorScheme.tertiary
         )
         /*
         BottomNavigationItem(

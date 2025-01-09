@@ -46,6 +46,7 @@ fun QuizScreen(quizItem: Quiz, onNext: () -> Unit) {
                 id = R.string.quiz_question,
                 quizItem.exactWord?.french ?: ""
             ),
+            color = MaterialTheme.colorScheme.onBackground,
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier
                 .padding(bottom = 24.dp)
@@ -64,17 +65,17 @@ fun QuizScreen(quizItem: Quiz, onNext: () -> Unit) {
                     .padding(vertical = 4.dp),
                 colors = ButtonDefaults.buttonColors(
                     when {
-                        selectedWord == null -> MaterialTheme.colorScheme.primary
-                        selectedWord == word && isCorrect -> Color.Green
-                        selectedWord == word -> Color.Red
-                        else -> MaterialTheme.colorScheme.primary
+                        selectedWord == null -> MaterialTheme.colorScheme.surface
+                        selectedWord == word && isCorrect -> MaterialTheme.colorScheme.outline
+                        selectedWord == word -> MaterialTheme.colorScheme.error
+                        else -> MaterialTheme.colorScheme.surface
                     }
                 )
             ) {
                 if (word != null) {
                     Text(
                         text = word.breton,
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.onSurface,
                         style = MaterialTheme.typography.headlineSmall
                     )
                 }
@@ -87,15 +88,11 @@ fun QuizScreen(quizItem: Quiz, onNext: () -> Unit) {
                 onClick = onNext,
                 modifier = Modifier.padding(start = 8.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.tertiary,
-                    contentColor = MaterialTheme.colorScheme.onTertiary
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
                 )
             ) {
-                Text(
-                    text = stringResource(
-                        id = R.string.suivant
-                    ), color = Color.Black
-                )
+                Text(text = stringResource(id = R.string.suivant))
             }
         }
     }
