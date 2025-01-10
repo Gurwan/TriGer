@@ -18,7 +18,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.okariastudio.triger.data.model.Ger
@@ -88,11 +87,10 @@ fun QuizScreen(quizItem: Quiz, onNext: () -> Unit) {
                 onClick = onNext,
                 modifier = Modifier.padding(start = 8.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary
+                    MaterialTheme.colorScheme.surface
                 )
             ) {
-                Text(text = stringResource(id = R.string.suivant))
+                Text(text = stringResource(id = R.string.suivant), color = MaterialTheme.colorScheme.onSurface)
             }
         }
     }

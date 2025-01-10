@@ -46,9 +46,12 @@ class MainActivity : ComponentActivity() {
         )
         val mainViewModel = MainViewModel(gerRepository, this.getSharedPreferences("Geriou", MODE_PRIVATE))
 
+
         lifecycleScope.launch {
             mainViewModel.synchronizeData()
-            delay(3000)
+            delay(2000)
+            mainViewModel.fetchGersForToday()
+            delay(1000)
             keepSplashScreen = false
         }
         enableEdgeToEdge()
