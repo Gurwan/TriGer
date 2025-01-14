@@ -24,7 +24,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -95,6 +94,13 @@ fun GerCard(ger: Ger, modifier: Modifier = Modifier, onDeskinClick: (Ger) -> Uni
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.weight(1f)
                 )
+                Text(
+                    text = stringResource(
+                        id = R.string.niveau,
+                        ger.levelLearnings.toString()
+                    ),
+                    style = MaterialTheme.typography.bodyMedium
+                )
             }
 
             if (isExpanded) {
@@ -125,6 +131,8 @@ fun PreviewGerCard() {
                 breton = "Kig-ha-farz",
                 french = "Potée bretonne",
                 description = "Un plat traditionnel de Bretagne.",
+                levelLearnings = 1,
+                isLearned = false,
                 example = "Me o deus debret ur kig-ha-farz brav er Sul-mañ !"
             ),
             onDeskinClick = { ger -> println("Deskin clicked for ${ger.breton}") }

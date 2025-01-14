@@ -19,4 +19,5 @@
     <string name="ta_reponse">Ta réponse</string>
     <string name="submit">Soumettre</string>
     <string name="bonne_reponse">Respont mat ! 🎉</string>
+    <string name="niveau">Niveau %1$s</string>
 </resources>
