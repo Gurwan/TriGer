@@ -65,11 +65,11 @@ fun GerCard(ger: Ger, modifier: Modifier = Modifier, onDeskinClick: (Ger) -> Uni
                     onClick = { onDeskinClick(ger) },
                     modifier = Modifier.padding(start = 8.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor =  MaterialTheme.colorScheme.primary,
-                        contentColor =  MaterialTheme.colorScheme.onPrimary
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
                     ),
                 ) {
-                    if(ger.isLearned){
+                    if (ger.isLearned) {
                         Text(text = stringResource(id = R.string.reviser))
                     } else {
                         Text(text = stringResource(id = R.string.apprendre))
@@ -94,13 +94,19 @@ fun GerCard(ger: Ger, modifier: Modifier = Modifier, onDeskinClick: (Ger) -> Uni
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.weight(1f)
                 )
-                Text(
-                    text = stringResource(
-                        id = R.string.niveau,
-                        ger.levelLearnings.toString()
-                    ),
-                    style = MaterialTheme.typography.bodyMedium
-                )
+                if (ger.isLearned) {
+                    Text(
+                        text = stringResource(
+                            id = R.string.niveau,
+                            if (ger.levelLearnings == 0) {
+                                '1'
+                            } else {
+                                ger.levelLearnings.toString()
+                            }
+                        ),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
             }
 
             if (isExpanded) {
@@ -114,7 +120,7 @@ fun GerCard(ger: Ger, modifier: Modifier = Modifier, onDeskinClick: (Ger) -> Uni
                     text = "Exemple : ${ger.example}",
                     style = MaterialTheme.typography.bodySmall,
                     fontStyle = FontStyle.Italic,
-                    color =  MaterialTheme.colorScheme.onPrimary
+                    color = MaterialTheme.colorScheme.onPrimary
                 )
             }
         }

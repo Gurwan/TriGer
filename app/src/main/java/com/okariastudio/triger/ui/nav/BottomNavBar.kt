@@ -26,32 +26,59 @@ fun BottomNavBar(navController: NavHostController) {
         BottomNavigationItem(
             selected = currentRoute == "Deskiñ",
             onClick = { navController.navigate("deskiñ") },
-            icon = { Icon(
-                ImageVector.vectorResource(id = R.drawable.ic_deskin),
-                contentDescription = stringResource(id = R.string.deskin),
-                tint = if (currentRoute == "Deskiñ") MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.tertiary)},
-            label = { Text(text= stringResource(id = R.string.deskin), color = if (currentRoute == "Deskiñ") MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.tertiary) },
+            icon = {
+                Icon(
+                    ImageVector.vectorResource(id = R.drawable.ic_deskin),
+                    contentDescription = stringResource(id = R.string.deskin),
+                    tint = if (currentRoute == "Deskiñ") MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.tertiary
+                )
+            },
+            label = {
+                Text(
+                    text = stringResource(id = R.string.deskin),
+                    color = if (currentRoute == "Deskiñ") MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.tertiary
+                )
+            },
             selectedContentColor = MaterialTheme.colorScheme.onBackground,
             unselectedContentColor = MaterialTheme.colorScheme.tertiary
         )
         BottomNavigationItem(
             selected = currentRoute == "Brezhodex",
             onClick = { navController.navigate("brezhodex") },
-            icon = { Icon(
-                ImageVector.vectorResource(id = R.drawable.ic_brezhodex),
-                contentDescription = stringResource(id = R.string.brezhodex),
-                tint = if (currentRoute == "Brezhodex") MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.tertiary
-            ) },
-            label = { Text(stringResource(id = R.string.brezhodex), color = if (currentRoute == "Brezhodex") MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.tertiary) },
+            icon = {
+                Icon(
+                    ImageVector.vectorResource(id = R.drawable.ic_brezhodex),
+                    contentDescription = stringResource(id = R.string.brezhodex),
+                    tint = if (currentRoute == "Brezhodex") MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.tertiary
+                )
+            },
+            label = {
+                Text(
+                    stringResource(id = R.string.brezhodex),
+                    color = if (currentRoute == "Brezhodex") MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.tertiary
+                )
+            },
             selectedContentColor = MaterialTheme.colorScheme.onBackground,
             unselectedContentColor = MaterialTheme.colorScheme.tertiary
         )
-        /*
         BottomNavigationItem(
-            selected = currentRoute == "arventennoù",
+            selected = currentRoute == "Arventennoù",
             onClick = { navController.navigate("arventennoù") },
-            icon = { Icon(ImageVector.vectorResource(id = R.drawable.ic_arventennou), contentDescription = "Arventennoù") },
-            label = { Text("Arventennoù") }
-        )*/
+            icon = {
+                Icon(
+                    ImageVector.vectorResource(id = R.drawable.ic_arventennou),
+                    contentDescription = stringResource(id = R.string.arventennoù),
+                    tint = if (currentRoute == "Arventennoù") MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.tertiary
+                )
+            },
+            label = {
+                Text(
+                    text = stringResource(id = R.string.arventennoù),
+                    color = if (currentRoute == "Arventennoù") MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.tertiary
+                )
+            },
+            selectedContentColor = MaterialTheme.colorScheme.onBackground,
+            unselectedContentColor = MaterialTheme.colorScheme.tertiary
+        )
     }
 }
