@@ -7,7 +7,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,11 +24,9 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -79,7 +76,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            TriGerTheme {
+            TriGerTheme(mainViewModel = mainViewModel) {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     MainContent(
                         modifier = Modifier.padding(innerPadding),
@@ -203,10 +200,9 @@ fun BrezhodexScreen(mainViewModel: MainViewModel, navController: NavHostControll
 }
 
 @Composable
-fun ArventennouScreen() {
+fun ArventennouScreen(mainViewModel: MainViewModel, navController: NavHostController) {
     val versionNumber = getVersionNumber()
-    val isDarkTheme = isSystemInDarkTheme()
-    var darkTheme by remember { mutableStateOf(true) }
+    val isDarkTheme by mainViewModel.isDarkTheme.collectAsState()
 
     LazyColumn(
         modifier = Modifier
@@ -283,20 +279,21 @@ fun ArventennouScreen() {
                     Icon(
                         ImageVector.vectorResource(id = R.drawable.ic_heol),
                         contentDescription = "Mode Clair",
-                        tint = if (darkTheme) Color.Gray else MaterialTheme.colorScheme.primary,
+                        tint = if (isDarkTheme) Color.Gray else MaterialTheme.colorScheme.primary,
                     )
                     Text(
                         text = stringResource(id = R.string.heol),
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center,
-                        color = if (darkTheme) Color.Gray else MaterialTheme.colorScheme.onBackground
+                        color = if (isDarkTheme) Color.Gray else MaterialTheme.colorScheme.onBackground
                     )
                 }
 
                 Switch(
-                    checked = darkTheme,
+                    checked = isDarkTheme,
                     onCheckedChange = {
-                        darkTheme = it
+                        mainViewModel.toggleTheme()
+                        navController.navigate("arventennoù")
                     },
                     colors = SwitchDefaults.colors(
                         checkedThumbColor = MaterialTheme.colorScheme.primary,
@@ -310,13 +307,13 @@ fun ArventennouScreen() {
                     Icon(
                         ImageVector.vectorResource(id = R.drawable.ic_loar),
                         contentDescription = "Mode Sombre",
-                        tint = if (darkTheme) MaterialTheme.colorScheme.primary else Color.Gray,
+                        tint = if (isDarkTheme) MaterialTheme.colorScheme.primary else Color.Gray,
                     )
                     Text(
                         text = stringResource(id = R.string.loar),
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center,
-                        color = if (darkTheme) MaterialTheme.colorScheme.onBackground else Color.Gray
+                        color = if (isDarkTheme) MaterialTheme.colorScheme.onBackground else Color.Gray
                     )
                 }
             }
@@ -356,7 +353,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    TriGerTheme {
+    TriGerTheme(mainViewModel = null) {
         Greeting("Android")
     }
 }

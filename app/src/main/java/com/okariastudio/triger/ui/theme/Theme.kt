@@ -8,7 +8,10 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
+import com.okariastudio.triger.viewmodel.MainViewModel
 
 val LightColorScheme = lightColorScheme(
     primary = Primary,
@@ -44,21 +47,33 @@ val DarkColorScheme = darkColorScheme(
 fun TriGerTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = true,
+    mainViewModel: MainViewModel?,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+    if(mainViewModel != null){
+        val isDarkTheme by mainViewModel.isDarkTheme.collectAsState(darkTheme)
+
+        val colorScheme = when {
+            dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+                val context = LocalContext.current
+                if (isDarkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            }
+
+            isDarkTheme -> DarkColorScheme
+            else -> LightColorScheme
         }
 
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+        MaterialTheme(
+            colorScheme = colorScheme,
+            typography = Typography,
+            content = content
+        )
+    } else {
+        MaterialTheme(
+            colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme,
+            typography = Typography,
+            content = content
+        )
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
 }

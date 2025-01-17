@@ -29,7 +29,7 @@ fun NavigationGraph(
             BrezhodexScreen(mainViewModel, navController)
         }
         composable("arventennoù") {
-            ArventennouScreen()
+            ArventennouScreen(mainViewModel, navController)
         }
         composable("quizChoose") {
             val quizItem by mainViewModel.currentQuizItem.collectAsState()

@@ -130,7 +130,7 @@ fun GerCard(ger: Ger, modifier: Modifier = Modifier, onDeskinClick: (Ger) -> Uni
 @Preview(showBackground = true)
 @Composable
 fun PreviewGerCard() {
-    TriGerTheme {
+    TriGerTheme(mainViewModel = null){
         GerCard(
             ger = Ger(
                 id = "1",

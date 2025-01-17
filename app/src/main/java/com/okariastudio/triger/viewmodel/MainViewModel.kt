@@ -1,6 +1,5 @@
 package com.okariastudio.triger.viewmodel
 
-import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -23,6 +22,9 @@ class MainViewModel(
     private val preferences: SharedPreferences
 ) : ViewModel() {
 
+    private val _isDarkTheme = MutableStateFlow(true)
+    val isDarkTheme: StateFlow<Boolean> get() = _isDarkTheme
+
     private val _gersToday = MutableLiveData<List<Ger>>()
     val gersToday: LiveData<List<Ger>> = _gersToday
 
@@ -34,6 +36,21 @@ class MainViewModel(
 
     private val _currentQuizItem = MutableStateFlow<Quiz?>(null)
     val currentQuizItem: StateFlow<Quiz?> = _currentQuizItem
+
+
+    init {
+        viewModelScope.launch {
+            _isDarkTheme.value = isDarkMode()
+        }
+    }
+
+    fun toggleTheme() {
+        viewModelScope.launch {
+            val newTheme = !_isDarkTheme.value
+            _isDarkTheme.value = newTheme
+            setDarkMode(newTheme)
+        }
+    }
 
     fun fetchGersForToday() {
         viewModelScope.launch {
@@ -99,6 +116,14 @@ class MainViewModel(
                 Log.e("Sync", "Error synchronizing data: ${e.message}")
             }
         }
+    }
+
+    private fun setDarkMode(isDark: Boolean) {
+        preferences.edit().putBoolean("is_dark_mode", isDark).apply()
+    }
+
+    private fun isDarkMode(): Boolean {
+        return preferences.getBoolean("is_dark_mode", true)
     }
 
     private fun saveGeriouIds(ids: List<String>) {
