@@ -28,6 +28,10 @@ class GerRepository(private val gerDao: GerDao, private val firebaseService: Fir
         val firebaseGers = firebaseService.fetchAllGeriou()
         val localGerIds = gerDao.getAllIds()
 
+        if (firebaseGers.size == localGerIds.size) {
+            return
+        }
+
         val newGeriou = firebaseGers.filter { ger -> ger.id !in localGerIds }
 
         if (newGeriou.isNotEmpty()) {
