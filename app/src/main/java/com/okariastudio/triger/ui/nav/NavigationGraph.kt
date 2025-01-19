@@ -26,7 +26,8 @@ fun NavigationGraph(
             DeskinScreen(mainViewModel, navController)
         }
         composable("brezhodex") {
-            BrezhodexScreen(mainViewModel, navController)
+            val tracking = Tracking(context = navController.context)
+            BrezhodexScreen(mainViewModel, navController, tracking)
         }
         composable("arventennoù") {
             ArventennouScreen(mainViewModel, navController)

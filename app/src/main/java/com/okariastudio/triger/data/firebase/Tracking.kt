@@ -17,4 +17,16 @@ class Tracking(private val context: Context) {
             e.printStackTrace()
         }
     }
+
+    fun logFilterApply(min: Int, max: Int) {
+        try {
+            analytics.logEvent("filter_applied") {
+                param("filter", 1)
+                param("filter_min", min.toLong())
+                param("filter_max", max.toLong())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 }
