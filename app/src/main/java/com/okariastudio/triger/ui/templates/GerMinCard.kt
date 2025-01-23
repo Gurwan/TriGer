@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -78,7 +79,8 @@ fun GerMinCard(ger: Ger, modifier: Modifier = Modifier, onDeskinClick: (Ger) -> 
 
                 Button(
                     onClick = { onDeskinClick(ger) },
-                    modifier = Modifier.padding(start = 8.dp),
+                    modifier = Modifier
+                        .fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = MaterialTheme.colorScheme.primary,
                         contentColor = MaterialTheme.colorScheme.onPrimary

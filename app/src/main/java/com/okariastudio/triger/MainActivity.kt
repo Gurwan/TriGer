@@ -10,12 +10,15 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -50,7 +53,6 @@ import androidx.navigation.NavHostController
 import com.okariastudio.triger.data.database.DatabaseProvider
 import com.okariastudio.triger.data.firebase.FirebaseService
 import com.okariastudio.triger.data.firebase.Tracking
-import com.okariastudio.triger.data.model.Ger
 import com.okariastudio.triger.data.repository.GerRepository
 import com.okariastudio.triger.ui.templates.FilterRange
 import com.okariastudio.triger.ui.templates.GerList
@@ -118,10 +120,13 @@ fun DeskinScreen(mainViewModel: MainViewModel, navController: NavHostController)
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp),
+                .padding(paddingValues),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
             if (gersToday.isEmpty()) {
                 item {
                     Text(
@@ -131,9 +136,9 @@ fun DeskinScreen(mainViewModel: MainViewModel, navController: NavHostController)
                     )
                 }
             } else {
-                items(gersToday) { ger: Ger ->
+                item {
                     GerList(
-                        listOf(ger),
+                        gersToday,
                         mainViewModel = mainViewModel,
                         navController = navController
                     )
@@ -154,6 +159,7 @@ fun BrezhodexScreen(
     val gersBrezhodexDevezh by mainViewModel.gersBrezhodexDevezh.observeAsState(emptyList())
     val (filterValue, setFilterValue) = remember { mutableStateOf<IntRange?>(null) }
     var isRangeDialogOpen by remember { mutableStateOf(false) }
+    var isMinimalView by remember { mutableStateOf(false) }
     var currentRange by remember { mutableStateOf(IntRange(-2, -1)) }
 
     LaunchedEffect(Unit) {
@@ -173,6 +179,19 @@ fun BrezhodexScreen(
                             contentDescription = stringResource(id = R.string.filter)
                         )
                     }
+                    IconButton(onClick = { isMinimalView = !isMinimalView }) {
+                        if (isMinimalView) {
+                            Icon(
+                                Icons.AutoMirrored.Filled.List,
+                                contentDescription = stringResource(id = R.string.display)
+                            )
+                        } else {
+                            Icon(
+                                ImageVector.vectorResource(id = R.drawable.ic_app),
+                                contentDescription = stringResource(id = R.string.display)
+                            )
+                        }
+                    }
                 }
             )
         }
@@ -181,10 +200,12 @@ fun BrezhodexScreen(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp),
+                .padding(paddingValues),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+            }
 
             if (gersBrezhodexDevezh.isNotEmpty()) {
                 item {
@@ -195,11 +216,12 @@ fun BrezhodexScreen(
                         color = MaterialTheme.colorScheme.onBackground,
                     )
                 }
-                items(gersBrezhodexDevezh) { ger ->
+                item {
                     GerList(
-                        gerList = listOf(ger),
+                        gerList = gersBrezhodexDevezh,
                         mainViewModel = mainViewModel,
-                        navController = navController
+                        navController = navController,
+                        minimal = isMinimalView
                     )
                 }
             }
@@ -219,11 +241,12 @@ fun BrezhodexScreen(
                         modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
                     )
                 }
-                items(filteredGersBrezhodex) { ger ->
+                item {
                     GerList(
-                        gerList = listOf(ger),
+                        gerList = filteredGersBrezhodex,
                         mainViewModel = mainViewModel,
-                        navController = navController
+                        navController = navController,
+                        minimal = isMinimalView
                     )
                 }
             } else if (gersBrezhodexDevezh.isEmpty()) {
@@ -272,10 +295,12 @@ fun ArventennouScreen(mainViewModel: MainViewModel, navController: NavHostContro
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .padding(16.dp),
+                .padding(paddingValues),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+            }
 
             item {
                 val uriPolicy = "https://www.gurwan.com/apps/tri-ger-privacy-policy.html"
