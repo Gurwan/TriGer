@@ -25,6 +25,9 @@ class MainViewModel(
     private val _isDarkTheme = MutableStateFlow(true)
     val isDarkTheme: StateFlow<Boolean> get() = _isDarkTheme
 
+    private val _isMinMode = MutableStateFlow(true)
+    val isMinMode: StateFlow<Boolean> get() = _isMinMode
+
     private val _gersToday = MutableLiveData<List<Ger>>()
     val gersToday: LiveData<List<Ger>> = _gersToday
 
@@ -41,6 +44,7 @@ class MainViewModel(
     init {
         viewModelScope.launch {
             _isDarkTheme.value = isDarkMode()
+            _isMinMode.value = isMinimalMode()
         }
     }
 
@@ -49,6 +53,14 @@ class MainViewModel(
             val newTheme = !_isDarkTheme.value
             _isDarkTheme.value = newTheme
             setDarkMode(newTheme)
+        }
+    }
+
+    fun toggleMinMode() {
+        viewModelScope.launch {
+            val newMinMode = !isMinimalMode()
+            _isMinMode.value = newMinMode
+            setMinimalMode(newMinMode)
         }
     }
 
@@ -124,6 +136,14 @@ class MainViewModel(
 
     private fun isDarkMode(): Boolean {
         return preferences.getBoolean("is_dark_mode", true)
+    }
+
+    private fun setMinimalMode(isMinimal: Boolean) {
+        preferences.edit().putBoolean("is_min_mode", isMinimal).apply()
+    }
+
+    private fun isMinimalMode(): Boolean {
+        return preferences.getBoolean("is_min_mode", false)
     }
 
     private fun saveGeriouIds(ids: List<String>) {

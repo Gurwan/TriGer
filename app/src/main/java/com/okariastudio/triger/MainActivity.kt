@@ -158,8 +158,9 @@ fun BrezhodexScreen(
     val gersBrezhodex by mainViewModel.gersBrezhodex.observeAsState(emptyList())
     val gersBrezhodexDevezh by mainViewModel.gersBrezhodexDevezh.observeAsState(emptyList())
     val (filterValue, setFilterValue) = remember { mutableStateOf<IntRange?>(null) }
+    val isMinimalView by mainViewModel.isMinMode.collectAsState()
+
     var isRangeDialogOpen by remember { mutableStateOf(false) }
-    var isMinimalView by remember { mutableStateOf(false) }
     var currentRange by remember { mutableStateOf(IntRange(-2, -1)) }
 
     LaunchedEffect(Unit) {
@@ -179,7 +180,7 @@ fun BrezhodexScreen(
                             contentDescription = stringResource(id = R.string.filter)
                         )
                     }
-                    IconButton(onClick = { isMinimalView = !isMinimalView }) {
+                    IconButton(onClick = { mainViewModel.toggleMinMode() }) {
                         if (isMinimalView) {
                             Icon(
                                 Icons.AutoMirrored.Filled.List,
