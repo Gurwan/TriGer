@@ -53,6 +53,7 @@ import androidx.navigation.NavHostController
 import com.okariastudio.triger.data.database.DatabaseProvider
 import com.okariastudio.triger.data.firebase.FirebaseService
 import com.okariastudio.triger.data.firebase.Tracking
+import com.okariastudio.triger.data.model.SortOption
 import com.okariastudio.triger.data.repository.GerRepository
 import com.okariastudio.triger.ui.templates.FilterRange
 import com.okariastudio.triger.ui.templates.GerList
@@ -162,6 +163,7 @@ fun BrezhodexScreen(
 
     var isRangeDialogOpen by remember { mutableStateOf(false) }
     var currentRange by remember { mutableStateOf(IntRange(-2, -1)) }
+    var sortOption by remember { mutableStateOf(SortOption.DATE_NEWEST) }
 
     LaunchedEffect(Unit) {
         mainViewModel.fetchGersInBrezhodex()
@@ -231,10 +233,21 @@ fun BrezhodexScreen(
                 gersBrezhodex.filter { ger -> ger.levelLearnings in range }
             } ?: gersBrezhodex
 
-            if (filteredGersBrezhodex.isNotEmpty()) {
+            val sortedGersBrezhodex = when (sortOption) {
+                SortOption.BRETON_AZ -> filteredGersBrezhodex.sortedBy { it.breton }
+                SortOption.BRETON_ZA -> filteredGersBrezhodex.sortedByDescending { it.breton }
+                SortOption.LEVEL_ASC -> filteredGersBrezhodex.sortedBy { it.levelLearnings }
+                SortOption.LEVEL_DESC -> filteredGersBrezhodex.sortedByDescending { it.levelLearnings }
+                SortOption.DATE_NEWEST -> filteredGersBrezhodex.sortedByDescending { it.lastLearningDate }
+                SortOption.DATE_OLDEST -> filteredGersBrezhodex.sortedBy { it.lastLearningDate }
+                SortOption.FRANCAIS_AZ -> filteredGersBrezhodex.sortedBy { it.french }
+                SortOption.FRANCAIS_ZA -> filteredGersBrezhodex.sortedBy { it.french }
+            }
+
+            if (sortedGersBrezhodex.isNotEmpty()) {
                 item {
                     Text(
-                        text = if (filteredGersBrezhodex.isNotEmpty()) stringResource(id = R.string.autres_ger) else stringResource(
+                        text = if (sortedGersBrezhodex.isNotEmpty()) stringResource(id = R.string.autres_ger) else stringResource(
                             id = R.string.ger_appris
                         ),
                         style = MaterialTheme.typography.headlineSmall,
@@ -244,7 +257,7 @@ fun BrezhodexScreen(
                 }
                 item {
                     GerList(
-                        gerList = filteredGersBrezhodex,
+                        gerList = sortedGersBrezhodex,
                         mainViewModel = mainViewModel,
                         navController = navController,
                         minimal = isMinimalView
