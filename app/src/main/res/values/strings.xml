@@ -31,5 +31,10 @@
     <string name="filter_title">Filtre par niveau</string>
     <string name="filter">Filtre</string>
     <string name="display">Affichage</string>
+    <string name="sort">Trier</string>
+    <string name="sort_by_breton">Trier sur le mot breton</string>
+    <string name="sort_by_francais">Trier sur la traduction</string>
+    <string name="sort_by_date">Trier par date</string>
+    <string name="sort_by_level">Trier par niveau</string>
     <string name="select_level">Sélectionnez niveau d\'apprentissage</string>
 </resources>

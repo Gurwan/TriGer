@@ -33,7 +33,7 @@ interface GerDao {
     @Query("SELECT * FROM ger WHERE isLearned = 0 LIMIT 3")
     suspend fun getGerForToday(): List<Ger>
 
-    @Query("UPDATE ger SET isLearned = 1, levelLearnings = levelLearnings + 1 WHERE id = :id")
+    @Query("UPDATE ger SET isLearned = 1, levelLearnings = levelLearnings + 1, lastLearningDate = CURRENT_TIMESTAMP WHERE id = :id")
     suspend fun markAsLearned(id: String)
 
     @Query("UPDATE ger SET isFavorite = :isFavorite WHERE id = :id")

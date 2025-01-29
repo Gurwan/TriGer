@@ -57,6 +57,7 @@ import com.okariastudio.triger.data.model.SortOption
 import com.okariastudio.triger.data.repository.GerRepository
 import com.okariastudio.triger.ui.templates.FilterRange
 import com.okariastudio.triger.ui.templates.GerList
+import com.okariastudio.triger.ui.templates.SortDropdown
 import com.okariastudio.triger.ui.theme.TriGerTheme
 import com.okariastudio.triger.viewmodel.MainViewModel
 import kotlinx.coroutines.delay
@@ -162,6 +163,7 @@ fun BrezhodexScreen(
     val isMinimalView by mainViewModel.isMinMode.collectAsState()
 
     var isRangeDialogOpen by remember { mutableStateOf(false) }
+    var isSortDialogOpen by remember { mutableStateOf(false) }
     var currentRange by remember { mutableStateOf(IntRange(-2, -1)) }
     var sortOption by remember { mutableStateOf(SortOption.DATE_NEWEST) }
 
@@ -194,6 +196,22 @@ fun BrezhodexScreen(
                                 contentDescription = stringResource(id = R.string.display)
                             )
                         }
+                    }
+                    IconButton(onClick = { isSortDialogOpen = true }) {
+                        Icon(
+                            ImageVector.vectorResource(id = R.drawable.ic_sort),
+                            contentDescription = stringResource(id = R.string.sort)
+                        )
+                    }
+                    if (isSortDialogOpen && !isRangeDialogOpen) {
+                        SortDropdown(
+                            onDismiss = { isSortDialogOpen = false },
+                            onApplySort = { option ->
+                                sortOption = Utils.changeSortOption(sortOption, option)
+                                tracking.logSortApply(option)
+                                isSortDialogOpen = false
+                            }
+                        )
                     }
                 }
             )
@@ -241,7 +259,11 @@ fun BrezhodexScreen(
                 SortOption.DATE_NEWEST -> filteredGersBrezhodex.sortedByDescending { it.lastLearningDate }
                 SortOption.DATE_OLDEST -> filteredGersBrezhodex.sortedBy { it.lastLearningDate }
                 SortOption.FRANCAIS_AZ -> filteredGersBrezhodex.sortedBy { it.french }
-                SortOption.FRANCAIS_ZA -> filteredGersBrezhodex.sortedBy { it.french }
+                SortOption.FRANCAIS_ZA -> filteredGersBrezhodex.sortedByDescending { it.french }
+                SortOption.LEVEL -> filteredGersBrezhodex.sortedBy { it.levelLearnings }
+                SortOption.DATE -> filteredGersBrezhodex.sortedByDescending { it.lastLearningDate }
+                SortOption.BRETON -> filteredGersBrezhodex.sortedBy { it.breton }
+                SortOption.FRANCAIS -> filteredGersBrezhodex.sortedBy { it.french }
             }
 
             if (sortedGersBrezhodex.isNotEmpty()) {
@@ -274,7 +296,7 @@ fun BrezhodexScreen(
             }
         }
 
-        if (isRangeDialogOpen) {
+        if (isRangeDialogOpen && !isSortDialogOpen) {
             FilterRange(
                 gers = gersBrezhodex,
                 onDismiss = { isRangeDialogOpen = false },
