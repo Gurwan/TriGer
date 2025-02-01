@@ -7,7 +7,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,7 +21,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -41,6 +45,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.buildAnnotatedString
@@ -55,6 +61,7 @@ import com.okariastudio.triger.data.firebase.FirebaseService
 import com.okariastudio.triger.data.firebase.Tracking
 import com.okariastudio.triger.data.model.SortOption
 import com.okariastudio.triger.data.repository.GerRepository
+import com.okariastudio.triger.ui.templates.ContactBottomSheet
 import com.okariastudio.triger.ui.templates.FilterRange
 import com.okariastudio.triger.ui.templates.GerList
 import com.okariastudio.triger.ui.templates.SortDropdown
@@ -317,136 +324,162 @@ fun BrezhodexScreen(
 fun ArventennouScreen(mainViewModel: MainViewModel, navController: NavHostController) {
     val versionNumber = getVersionNumber()
     val isDarkTheme by mainViewModel.isDarkTheme.collectAsState()
+    val showBottomSheet = remember { mutableStateOf(false) }
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(text = stringResource(id = R.string.arventennoù))
-                }
-            )
-        }
-    ) { paddingValues ->
-
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) {
+                focusManager.clearFocus()
+                keyboardController?.hide()
             }
+    ) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {
+                        Text(text = stringResource(id = R.string.arventennoù))
+                    }
+                )
+            },
+            floatingActionButton = {
+                FloatingActionButton(onClick = { showBottomSheet.value = true }) {
+                    Icon(Icons.Default.Email, contentDescription = stringResource(R.string.contact))
+                }
+            }
+        ) { paddingValues ->
 
-            item {
-                val uriPolicy = "https://www.gurwan.com/apps/tri-ger-privacy-policy.html"
-                val string = stringResource(id = R.string.privacy_policy)
-                val context = LocalContext.current
-                val annotatedString = buildAnnotatedString {
-                    append(stringResource(id = R.string.privacy_policy))
-                    addStringAnnotation(
-                        tag = "URL",
-                        annotation = uriPolicy,
-                        start = 0,
-                        end = string.length
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+
+                item {
+                    val uriPolicy = "https://www.gurwan.com/apps/tri-ger-privacy-policy.html"
+                    val string = stringResource(id = R.string.privacy_policy)
+                    val context = LocalContext.current
+                    val annotatedString = buildAnnotatedString {
+                        append(stringResource(id = R.string.privacy_policy))
+                        addStringAnnotation(
+                            tag = "URL",
+                            annotation = uriPolicy,
+                            start = 0,
+                            end = string.length
+                        )
+                    }
+
+                    val colorSchemeLink = MaterialTheme.colorScheme.onBackground
+                    val colorLink: () -> Color = { colorSchemeLink }
+
+                    BasicText(
+                        text = annotatedString,
+                        modifier = Modifier
+                            .clickable {
+                                annotatedString
+                                    .getStringAnnotations(
+                                        tag = "URL",
+                                        start = 0,
+                                        end = string.length
+                                    )
+                                    .firstOrNull()
+                                    ?.let { annotation ->
+                                        val intent =
+                                            Intent(Intent.ACTION_VIEW, Uri.parse(annotation.item))
+                                        context.startActivity(intent)
+                                    }
+                            }
+                            .padding(bottom = 16.dp),
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = colorLink
                     )
                 }
 
-                val colorSchemeLink = MaterialTheme.colorScheme.onBackground
-                val colorLink: () -> Color = { colorSchemeLink }
+                item {
+                    Text(
+                        text = stringResource(id = R.string.theme_change),
+                        style = MaterialTheme.typography.headlineSmall,
+                        modifier = Modifier.padding(bottom = 16.dp),
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                }
 
-                BasicText(
-                    text = annotatedString,
-                    modifier = Modifier
-                        .clickable {
-                            annotatedString
-                                .getStringAnnotations(
-                                    tag = "URL",
-                                    start = 0,
-                                    end = string.length
-                                )
-                                .firstOrNull()
-                                ?.let { annotation ->
-                                    val intent =
-                                        Intent(Intent.ACTION_VIEW, Uri.parse(annotation.item))
-                                    context.startActivity(intent)
-                                }
+                item {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 32.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Icon(
+                                ImageVector.vectorResource(id = R.drawable.ic_heol),
+                                contentDescription = "Mode Clair",
+                                tint = if (isDarkTheme) Color.Gray else MaterialTheme.colorScheme.primary,
+                            )
+                            Text(
+                                text = stringResource(id = R.string.heol),
+                                style = MaterialTheme.typography.bodyMedium,
+                                textAlign = TextAlign.Center,
+                                color = if (isDarkTheme) Color.Gray else MaterialTheme.colorScheme.onBackground
+                            )
                         }
-                        .padding(bottom = 16.dp),
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = colorLink
-                )
-            }
 
-            item {
-                Text(
-                    text = stringResource(id = R.string.theme_change),
-                    style = MaterialTheme.typography.headlineSmall,
-                    modifier = Modifier.padding(bottom = 16.dp),
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-            }
+                        Switch(
+                            checked = isDarkTheme,
+                            onCheckedChange = {
+                                mainViewModel.toggleTheme()
+                                navController.navigate("arventennoù")
+                            },
+                            colors = SwitchDefaults.colors(
+                                checkedThumbColor = MaterialTheme.colorScheme.primary,
+                                checkedTrackColor = MaterialTheme.colorScheme.primaryContainer,
+                                uncheckedThumbColor = MaterialTheme.colorScheme.secondary,
+                                uncheckedTrackColor = MaterialTheme.colorScheme.secondaryContainer,
+                            )
+                        )
 
-            item {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 32.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Icon(
-                            ImageVector.vectorResource(id = R.drawable.ic_heol),
-                            contentDescription = "Mode Clair",
-                            tint = if (isDarkTheme) Color.Gray else MaterialTheme.colorScheme.primary,
-                        )
-                        Text(
-                            text = stringResource(id = R.string.heol),
-                            style = MaterialTheme.typography.bodyMedium,
-                            textAlign = TextAlign.Center,
-                            color = if (isDarkTheme) Color.Gray else MaterialTheme.colorScheme.onBackground
-                        )
-                    }
-
-                    Switch(
-                        checked = isDarkTheme,
-                        onCheckedChange = {
-                            mainViewModel.toggleTheme()
-                            navController.navigate("arventennoù")
-                        },
-                        colors = SwitchDefaults.colors(
-                            checkedThumbColor = MaterialTheme.colorScheme.primary,
-                            checkedTrackColor = MaterialTheme.colorScheme.primaryContainer,
-                            uncheckedThumbColor = MaterialTheme.colorScheme.secondary,
-                            uncheckedTrackColor = MaterialTheme.colorScheme.secondaryContainer,
-                        )
-                    )
-
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Icon(
-                            ImageVector.vectorResource(id = R.drawable.ic_loar),
-                            contentDescription = "Mode Sombre",
-                            tint = if (isDarkTheme) MaterialTheme.colorScheme.primary else Color.Gray,
-                        )
-                        Text(
-                            text = stringResource(id = R.string.loar),
-                            style = MaterialTheme.typography.bodyMedium,
-                            textAlign = TextAlign.Center,
-                            color = if (isDarkTheme) MaterialTheme.colorScheme.onBackground else Color.Gray
-                        )
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                            Icon(
+                                ImageVector.vectorResource(id = R.drawable.ic_loar),
+                                contentDescription = "Mode Sombre",
+                                tint = if (isDarkTheme) MaterialTheme.colorScheme.primary else Color.Gray,
+                            )
+                            Text(
+                                text = stringResource(id = R.string.loar),
+                                style = MaterialTheme.typography.bodyMedium,
+                                textAlign = TextAlign.Center,
+                                color = if (isDarkTheme) MaterialTheme.colorScheme.onBackground else Color.Gray
+                            )
+                        }
                     }
                 }
-            }
 
-            item {
-                Text(
-                    text = stringResource(id = R.string.version_number, versionNumber),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
-                )
+                item {
+                    Text(
+                        text = stringResource(id = R.string.version_number, versionNumber),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6f)
+                    )
+                }
             }
         }
+    }
+
+    if (showBottomSheet.value) {
+        ContactBottomSheet(
+            onDismiss = { showBottomSheet.value = false; }
+        )
     }
 }
 

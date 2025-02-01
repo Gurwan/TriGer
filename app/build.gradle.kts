@@ -14,8 +14,8 @@ android {
         applicationId = "com.okariastudio.triger"
         minSdk = 26
         targetSdk = 35
-        versionCode = 4
-        versionName = "1.1.0"
+        versionCode = 5
+        versionName = "1.2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -97,4 +97,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose.v273)
 
     implementation(libs.androidx.lifecycle.runtime.compose)
+
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
 }
