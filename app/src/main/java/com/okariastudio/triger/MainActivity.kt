@@ -20,6 +20,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -65,6 +66,7 @@ import com.okariastudio.triger.ui.templates.ContactBottomSheet
 import com.okariastudio.triger.ui.templates.FilterRange
 import com.okariastudio.triger.ui.templates.GerList
 import com.okariastudio.triger.ui.templates.SortDropdown
+import com.okariastudio.triger.ui.templates.StatisticsAccordion
 import com.okariastudio.triger.ui.theme.TriGerTheme
 import com.okariastudio.triger.viewmodel.MainViewModel
 import kotlinx.coroutines.delay
@@ -327,6 +329,12 @@ fun ArventennouScreen(mainViewModel: MainViewModel, navController: NavHostContro
     val showBottomSheet = remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
+    val context = LocalContext.current
+    val statistiques by mainViewModel.statistiques.observeAsState(emptyList())
+
+    LaunchedEffect(Unit) {
+        mainViewModel.getStatistics(context)
+    }
 
     Box(
         modifier = Modifier
@@ -365,43 +373,11 @@ fun ArventennouScreen(mainViewModel: MainViewModel, navController: NavHostContro
                 }
 
                 item {
-                    val uriPolicy = "https://www.gurwan.com/apps/tri-ger-privacy-policy.html"
-                    val string = stringResource(id = R.string.privacy_policy)
-                    val context = LocalContext.current
-                    val annotatedString = buildAnnotatedString {
-                        append(stringResource(id = R.string.privacy_policy))
-                        addStringAnnotation(
-                            tag = "URL",
-                            annotation = uriPolicy,
-                            start = 0,
-                            end = string.length
-                        )
-                    }
+                    StatisticsAccordion(statistiques)
+                }
 
-                    val colorSchemeLink = MaterialTheme.colorScheme.onBackground
-                    val colorLink: () -> Color = { colorSchemeLink }
-
-                    BasicText(
-                        text = annotatedString,
-                        modifier = Modifier
-                            .clickable {
-                                annotatedString
-                                    .getStringAnnotations(
-                                        tag = "URL",
-                                        start = 0,
-                                        end = string.length
-                                    )
-                                    .firstOrNull()
-                                    ?.let { annotation ->
-                                        val intent =
-                                            Intent(Intent.ACTION_VIEW, Uri.parse(annotation.item))
-                                        context.startActivity(intent)
-                                    }
-                            }
-                            .padding(bottom = 16.dp),
-                        style = MaterialTheme.typography.headlineSmall,
-                        color = colorLink
-                    )
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
 
                 item {
@@ -417,7 +393,7 @@ fun ArventennouScreen(mainViewModel: MainViewModel, navController: NavHostContro
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(bottom = 32.dp),
+                            .padding(bottom = 16.dp),
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
@@ -463,6 +439,69 @@ fun ArventennouScreen(mainViewModel: MainViewModel, navController: NavHostContro
                             )
                         }
                     }
+                }
+
+                item {
+                    val uriPolicy = "https://www.gurwan.com/apps/tri-ger-privacy-policy.html"
+                    val string = stringResource(id = R.string.privacy_policy)
+                    val annotatedString = buildAnnotatedString {
+                        append(stringResource(id = R.string.privacy_policy))
+                        addStringAnnotation(
+                            tag = "URL",
+                            annotation = uriPolicy,
+                            start = 0,
+                            end = string.length
+                        )
+                    }
+
+                    val colorSchemeLink = MaterialTheme.colorScheme.onBackground
+                    val colorLink: () -> Color = { colorSchemeLink }
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                            .clickable {
+                                annotatedString
+                                    .getStringAnnotations(
+                                        tag = "URL",
+                                        start = 0,
+                                        end = string.length
+                                    )
+                                    .firstOrNull()
+                                    ?.let { annotation ->
+                                        val intent =
+                                            Intent(
+                                                Intent.ACTION_VIEW,
+                                                Uri.parse(annotation.item)
+                                            )
+                                        context.startActivity(intent)
+                                    }
+                            }
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            BasicText(
+                                text = annotatedString,
+                                style = MaterialTheme.typography.headlineSmall,
+                                color = colorLink
+                            )
+
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                                modifier = Modifier.padding(10.dp, 0.dp),
+                                contentDescription = "",
+                                tint = MaterialTheme.colorScheme.onBackground
+                            )
+                        }
+                    }
+                }
+
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
 
                 item {

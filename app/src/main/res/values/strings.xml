@@ -37,4 +37,12 @@
     <string name="sort_by_date">Trier par date</string>
     <string name="sort_by_level">Trier par niveau</string>
     <string name="select_level">Sélectionnez niveau d\'apprentissage</string>
+    <string name="email">Votre adresse mail</string>
+    <string name="message">Votre retour sur Tri Ger</string>
+    <string name="send">Envoyer</string>
+    <string name="contact">Contactez-nous</string>
+    <string name="statistics">Statistiques</string>
+    <string name="stats_ger_learned">Nombre de mots appris</string>
+    <string name="stats_ger_number">Nombre de mots disponibles</string>
+    <string name="stats_average_level">Niveau moyen d\'apprentissage</string>
 </resources>

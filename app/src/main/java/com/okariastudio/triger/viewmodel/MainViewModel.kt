@@ -1,11 +1,14 @@
 package com.okariastudio.triger.viewmodel
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.okariastudio.triger.R
 import com.okariastudio.triger.data.model.Ger
 import com.okariastudio.triger.data.model.Quiz
 import com.okariastudio.triger.data.repository.GerRepository
@@ -40,6 +43,9 @@ class MainViewModel(
     private val _currentQuizItem = MutableStateFlow<Quiz?>(null)
     val currentQuizItem: StateFlow<Quiz?> = _currentQuizItem
 
+    private val _statistiques = MutableLiveData<List<Pair<String, Any>>>()
+    val statistiques: LiveData<List<Pair<String, Any>>> = _statistiques
+
 
     init {
         viewModelScope.launch {
@@ -61,6 +67,20 @@ class MainViewModel(
             val newMinMode = !isMinimalMode()
             _isMinMode.value = newMinMode
             setMinimalMode(newMinMode)
+        }
+    }
+
+    @SuppressLint("DefaultLocale")
+    fun getStatistics(context: Context) {
+        viewModelScope.launch {
+            val gerLearnedNumber = gerRepository.getLearnedWords().size
+            val gerNumber = gerRepository.getIdsGeriou().size
+            val averageLevel = gerRepository.getAverageLevel()
+            _statistiques.value = listOf(
+                context.getString(R.string.stats_ger_learned) to gerLearnedNumber,
+                context.getString(R.string.stats_ger_number) to gerNumber,
+                context.getString(R.string.stats_average_level) to String.format("%.2f", averageLevel),
+            )
         }
     }
 
