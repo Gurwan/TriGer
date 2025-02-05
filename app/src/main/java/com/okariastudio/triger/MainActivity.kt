@@ -1,5 +1,6 @@
 package com.okariastudio.triger
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -71,8 +72,14 @@ import com.okariastudio.triger.ui.theme.TriGerTheme
 import com.okariastudio.triger.viewmodel.MainViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 
 class MainActivity : ComponentActivity() {
+
+    private val preferences by lazy {
+        getSharedPreferences("Geriou", Context.MODE_PRIVATE)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashscreen = installSplashScreen()
         var keepSplashScreen = true
@@ -84,7 +91,7 @@ class MainActivity : ComponentActivity() {
             firebaseService = FirebaseService()
         )
         val mainViewModel =
-            MainViewModel(gerRepository, this.getSharedPreferences("Geriou", MODE_PRIVATE))
+            MainViewModel(gerRepository, preferences)
 
 
         lifecycleScope.launch {
@@ -106,6 +113,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        preferences.edit().putString("lastDayOpened", LocalDate.now().toString()).apply()
     }
 }
 
