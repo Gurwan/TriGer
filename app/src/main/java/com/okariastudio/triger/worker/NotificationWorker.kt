@@ -34,8 +34,8 @@ class NotificationWorker(appContext: Context, workerParams: WorkerParameters) :
 
         val notification = NotificationCompat.Builder(applicationContext, channelId)
             .setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle("") // TODO
-            .setContentText("") // TODO
+            .setContentTitle("N'oublie pas le breton !")
+            .setContentText("Tri ger nevez sont disponibles pour toi aujourd'hui !")
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
             .setContentIntent(

@@ -58,6 +58,9 @@ import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavHostController
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.okariastudio.triger.data.database.DatabaseProvider
 import com.okariastudio.triger.data.firebase.FirebaseService
 import com.okariastudio.triger.data.firebase.Tracking
@@ -70,9 +73,12 @@ import com.okariastudio.triger.ui.templates.SortDropdown
 import com.okariastudio.triger.ui.templates.StatisticsAccordion
 import com.okariastudio.triger.ui.theme.TriGerTheme
 import com.okariastudio.triger.viewmodel.MainViewModel
+import com.okariastudio.triger.worker.NotificationWorker
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalTime
+import java.util.concurrent.TimeUnit
 
 class MainActivity : ComponentActivity() {
 
@@ -85,6 +91,15 @@ class MainActivity : ComponentActivity() {
         var keepSplashScreen = true
         super.onCreate(savedInstanceState)
         splashscreen.setKeepOnScreenCondition { keepSplashScreen }
+
+        //daily notification
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            "daily_notification_work",
+            ExistingPeriodicWorkPolicy.UPDATE,
+            PeriodicWorkRequestBuilder<NotificationWorker>(1, TimeUnit.DAYS)
+                .setInitialDelay(getDelay(), TimeUnit.MILLISECONDS)
+                .build()
+        )
 
         val gerRepository = GerRepository(
             gerDao = DatabaseProvider.getDatabase(this).gerDao(),
@@ -118,6 +133,17 @@ class MainActivity : ComponentActivity() {
     override fun onStart() {
         super.onStart()
         preferences.edit().putString("lastDayOpened", LocalDate.now().toString()).apply()
+    }
+
+    private fun getDelay(): Long {
+        val now = LocalTime.now().toNanoOfDay() / 1_000_000
+        val notificationTime = LocalTime.of(18, 30).toNanoOfDay() / 1_000_000
+
+        return if (notificationTime > now) {
+            notificationTime - now
+        } else {
+            24 * 60 * 60 * 1000 - (now - notificationTime)
+        }
     }
 }
 
