@@ -61,6 +61,7 @@ import androidx.navigation.NavHostController
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.okariastudio.triger.data.database.DatabaseProvider
 import com.okariastudio.triger.data.firebase.FirebaseService
 import com.okariastudio.triger.data.firebase.Tracking
@@ -108,6 +109,8 @@ class MainActivity : ComponentActivity() {
         val mainViewModel =
             MainViewModel(gerRepository, preferences)
 
+        val launch = preferences.getInt("launch_count", 0) + 1
+        preferences.edit().putInt("launch_count", launch).apply()
 
         lifecycleScope.launch {
             mainViewModel.synchronizeData()
@@ -117,6 +120,11 @@ class MainActivity : ComponentActivity() {
             keepSplashScreen = false
         }
         enableEdgeToEdge()
+
+        if (launch >= 5) {
+            val manager = ReviewManagerFactory.create(this)
+            manager.requestReviewFlow()
+        }
 
         setContent {
             TriGerTheme(mainViewModel = mainViewModel) {
