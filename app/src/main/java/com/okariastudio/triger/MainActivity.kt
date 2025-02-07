@@ -61,7 +61,9 @@ import androidx.navigation.NavHostController
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.google.android.play.core.review.ReviewException
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.google.android.play.core.review.model.ReviewErrorCode
 import com.okariastudio.triger.data.database.DatabaseProvider
 import com.okariastudio.triger.data.firebase.FirebaseService
 import com.okariastudio.triger.data.firebase.Tracking
@@ -121,9 +123,17 @@ class MainActivity : ComponentActivity() {
         }
         enableEdgeToEdge()
 
-        if (launch >= 5) {
+        if (launch % 5 == 0) {
             val manager = ReviewManagerFactory.create(this)
-            manager.requestReviewFlow()
+            val request = manager.requestReviewFlow()
+            request.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    println(task.result)
+                } else {
+                    @ReviewErrorCode val reviewErrorCode = (task.getException() as ReviewException).errorCode
+                    println(reviewErrorCode)
+                }
+            }
         }
 
         setContent {
