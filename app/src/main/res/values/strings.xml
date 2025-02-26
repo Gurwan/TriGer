@@ -45,4 +45,12 @@
     <string name="stats_ger_learned">Nombre de mots appris</string>
     <string name="stats_ger_number">Nombre de mots disponibles</string>
     <string name="stats_average_level">Niveau moyen d\'apprentissage</string>
+    <string name="target_quiz_label">Choix de la cible du Quiz</string>
+    <string name="limit_quiz_label">Fixer une limite au Quiz</string>
+    <string name="words_limit_quiz">Nombre de mots</string>
+    <string name="time_limit_quiz">Durée du Quiz</string>
+    <string name="time_limit_choose_quiz">Sélectionner le temps</string>
+    <string name="type_quiz_label">Choix du type de Quiz</string>
+    <string name="start_quiz_btn">Lancer le Quiz</string>
+    <string name="quiz">Quiz</string>
 </resources>

@@ -46,11 +46,21 @@ class MainViewModel(
     private val _statistiques = MutableLiveData<List<Pair<String, Any>>>()
     val statistiques: LiveData<List<Pair<String, Any>>> = _statistiques
 
+    private val _totalGeriou = MutableLiveData<Int>()
+    val totalGeriou: LiveData<Int> = _totalGeriou
+
 
     init {
         viewModelScope.launch {
             _isDarkTheme.value = isDarkMode()
             _isMinMode.value = isMinimalMode()
+        }
+    }
+
+    fun fetchTotalGeriou() {
+        viewModelScope.launch {
+            val geriou = gerRepository.getIdsGeriou()
+            _totalGeriou.postValue(geriou.size)
         }
     }
 
@@ -79,7 +89,10 @@ class MainViewModel(
             _statistiques.value = listOf(
                 context.getString(R.string.stats_ger_learned) to gerLearnedNumber,
                 context.getString(R.string.stats_ger_number) to gerNumber,
-                context.getString(R.string.stats_average_level) to String.format("%.2f", averageLevel),
+                context.getString(R.string.stats_average_level) to String.format(
+                    "%.2f",
+                    averageLevel
+                ),
             )
         }
     }

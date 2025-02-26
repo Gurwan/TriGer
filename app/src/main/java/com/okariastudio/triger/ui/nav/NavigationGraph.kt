@@ -1,6 +1,7 @@
 package com.okariastudio.triger.ui.nav
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -11,6 +12,7 @@ import com.okariastudio.triger.ArventennouScreen
 import com.okariastudio.triger.BrezhodexScreen
 import com.okariastudio.triger.DeskinScreen
 import com.okariastudio.triger.QuizScreen
+import com.okariastudio.triger.QuizStart
 import com.okariastudio.triger.QuizWriteScreen
 import com.okariastudio.triger.data.firebase.Tracking
 import com.okariastudio.triger.viewmodel.MainViewModel
@@ -31,6 +33,13 @@ fun NavigationGraph(
         }
         composable("arventennoù") {
             ArventennouScreen(mainViewModel, navController)
+        }
+        composable("quiz") {
+            LaunchedEffect(Unit) {
+                mainViewModel.fetchTotalGeriou()
+            }
+
+            QuizStart(mainViewModel, navController)
         }
         composable("quizChoose") {
             val quizItem by mainViewModel.currentQuizItem.collectAsState()

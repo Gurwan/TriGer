@@ -62,6 +62,25 @@ fun BottomNavBar(navController: NavHostController) {
             unselectedContentColor = MaterialTheme.colorScheme.tertiary
         )
         BottomNavigationItem(
+            selected = currentRoute == "Quiz",
+            onClick = { navController.navigate("quiz") },
+            icon = {
+                Icon(
+                    ImageVector.vectorResource(id = R.drawable.ic_quiz),
+                    contentDescription = stringResource(id = R.string.brezhodex),
+                    tint = if (currentRoute == "Quiz") MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.tertiary
+                )
+            },
+            label = {
+                Text(
+                    stringResource(id = R.string.quiz),
+                    color = if (currentRoute == "Quiz") MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.tertiary
+                )
+            },
+            selectedContentColor = MaterialTheme.colorScheme.onBackground,
+            unselectedContentColor = MaterialTheme.colorScheme.tertiary
+        )
+        BottomNavigationItem(
             selected = currentRoute == "Arventennoù",
             onClick = { navController.navigate("arventennoù") },
             icon = {
