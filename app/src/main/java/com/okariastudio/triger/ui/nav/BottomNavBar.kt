@@ -4,7 +4,6 @@ import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -33,12 +32,6 @@ fun BottomNavBar(navController: NavHostController) {
                     tint = if (currentRoute == "Deskiñ") MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.tertiary
                 )
             },
-            label = {
-                Text(
-                    text = stringResource(id = R.string.deskin),
-                    color = if (currentRoute == "Deskiñ") MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.tertiary
-                )
-            },
             selectedContentColor = MaterialTheme.colorScheme.onBackground,
             unselectedContentColor = MaterialTheme.colorScheme.tertiary
         )
@@ -50,12 +43,6 @@ fun BottomNavBar(navController: NavHostController) {
                     ImageVector.vectorResource(id = R.drawable.ic_brezhodex),
                     contentDescription = stringResource(id = R.string.brezhodex),
                     tint = if (currentRoute == "Brezhodex") MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.tertiary
-                )
-            },
-            label = {
-                Text(
-                    stringResource(id = R.string.brezhodex),
-                    color = if (currentRoute == "Brezhodex") MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.tertiary
                 )
             },
             selectedContentColor = MaterialTheme.colorScheme.onBackground,
@@ -71,12 +58,6 @@ fun BottomNavBar(navController: NavHostController) {
                     tint = if (currentRoute == "Quiz") MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.tertiary
                 )
             },
-            label = {
-                Text(
-                    stringResource(id = R.string.quiz),
-                    color = if (currentRoute == "Quiz") MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.tertiary
-                )
-            },
             selectedContentColor = MaterialTheme.colorScheme.onBackground,
             unselectedContentColor = MaterialTheme.colorScheme.tertiary
         )
@@ -88,12 +69,6 @@ fun BottomNavBar(navController: NavHostController) {
                     ImageVector.vectorResource(id = R.drawable.ic_arventennou),
                     contentDescription = stringResource(id = R.string.arventennoù),
                     tint = if (currentRoute == "Arventennoù") MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.tertiary
-                )
-            },
-            label = {
-                Text(
-                    text = stringResource(id = R.string.arventennoù),
-                    color = if (currentRoute == "Arventennoù") MaterialTheme.colorScheme.onBackground else MaterialTheme.colorScheme.tertiary
                 )
             },
             selectedContentColor = MaterialTheme.colorScheme.onBackground,

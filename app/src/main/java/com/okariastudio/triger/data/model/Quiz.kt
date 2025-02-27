@@ -6,21 +6,21 @@ data class Quiz(
     val score: Int = 0
 )
 
-enum class QuizType {
-    WRITE,
-    CHOICE,
-    BOTH
+enum class QuizType(val value: String) {
+    WRITE("Ecriture"),
+    CHOICE("Choix"),
+    BOTH("Ecriture et choix")
 }
 
-enum class QuizLimit {
-    N_WORDS,
-    X_MINUTES,
-    NO_LIMIT
+enum class QuizLimit(val value: String) {
+    N_WORDS("Nombre donné de mots"),
+    X_MINUTES("Temps limité en minutes"),
+    NO_LIMIT("Sans limite")
 }
 
-enum class QuizTarget {
-    ALL_WORDS,
-    RECENT_WORDS,
-    OLD_WORDS,
-    LEVEL_LEARNING
+enum class QuizTarget(val value: String) {
+    ALL_WORDS("Tous les mots"),
+    RECENT_WORDS("Les mots les plus récents"),
+    OLD_WORDS("Les mots les plus anciens"),
+    LEVEL_LEARNING("Niveau d'apprentissage")
 }
