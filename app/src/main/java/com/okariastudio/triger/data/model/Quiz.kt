@@ -14,7 +14,6 @@ enum class QuizType(val value: String) {
 
 enum class QuizLimit(val value: String) {
     N_WORDS("Nombre donné de mots"),
-    X_MINUTES("Temps limité en minutes"),
     NO_LIMIT("Sans limite")
 }
 

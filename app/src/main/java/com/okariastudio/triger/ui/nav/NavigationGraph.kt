@@ -36,7 +36,7 @@ fun NavigationGraph(
         }
         composable("quiz") {
             LaunchedEffect(Unit) {
-                mainViewModel.fetchTotalGeriou()
+                mainViewModel.fetchTotalGeriouLearned()
             }
 
             QuizStart(mainViewModel, navController)

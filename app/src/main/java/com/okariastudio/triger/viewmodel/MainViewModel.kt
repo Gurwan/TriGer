@@ -46,8 +46,8 @@ class MainViewModel(
     private val _statistiques = MutableLiveData<List<Pair<String, Any>>>()
     val statistiques: LiveData<List<Pair<String, Any>>> = _statistiques
 
-    private val _totalGeriou = MutableLiveData<Int>()
-    val totalGeriou: LiveData<Int> = _totalGeriou
+    private val _totalGeriouLearned = MutableLiveData<Int>()
+    val totalGeriouLearned: LiveData<Int> = _totalGeriouLearned
 
 
     init {
@@ -57,10 +57,10 @@ class MainViewModel(
         }
     }
 
-    fun fetchTotalGeriou() {
+    fun fetchTotalGeriouLearned() {
         viewModelScope.launch {
-            val geriou = gerRepository.getIdsGeriou()
-            _totalGeriou.postValue(geriou.size)
+            val geriou = gerRepository.getLearnedWords()
+            _totalGeriouLearned.postValue(geriou.size)
         }
     }
 

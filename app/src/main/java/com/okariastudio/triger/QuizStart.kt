@@ -1,6 +1,5 @@
 package com.okariastudio.triger
 
-import android.app.TimePickerDialog
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,22 +7,24 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -37,15 +38,10 @@ import com.okariastudio.triger.viewmodel.MainViewModel
 fun QuizStart(mainViewModel: MainViewModel, navController: NavHostController) {
     var quizTarget by remember { mutableStateOf(QuizTarget.ALL_WORDS) }
     var quizLimitType by remember { mutableStateOf(QuizLimit.NO_LIMIT) }
-    var wordCountRange by remember { mutableStateOf(1..10) }
-    var quizTime by remember { mutableStateOf(0L) }
+    var sliderWordPosition by remember { mutableFloatStateOf(0f) }
     var quizType by remember { mutableStateOf(QuizType.BOTH) }
 
-    val totalGeriou by mainViewModel.totalGeriou.observeAsState(initial = 10)
-
-    LaunchedEffect(totalGeriou) {
-        wordCountRange = 1..totalGeriou
-    }
+    val totalGeriouLearned by mainViewModel.totalGeriouLearned.observeAsState(initial = 10)
 
     Scaffold(
         topBar = {
@@ -62,6 +58,11 @@ fun QuizStart(mainViewModel: MainViewModel, navController: NavHostController) {
                 .padding(paddingValues),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
             item {
                 Text(text = stringResource(id = R.string.target_quiz_label))
                 QuizTarget.entries.forEach { target ->
@@ -98,20 +99,17 @@ fun QuizStart(mainViewModel: MainViewModel, navController: NavHostController) {
                     }
 
                     item {
-                        Slider(value = wordCountRange.first.toFloat(),
-                            valueRange = 1f..100f,
-                            onValueChange = {
-                                wordCountRange = it.toInt()..wordCountRange.last
-                            })
-                    }
-                }
-
-                QuizLimit.X_MINUTES -> {
-                    item {
-                        Text(text = stringResource(id = R.string.time_limit_quiz))
-                    }
-                    item {
-                        TimePicker(quizTime) { quizTime = it }
+                        Slider(
+                            value = sliderWordPosition,
+                            colors = SliderDefaults.colors(
+                                thumbColor = MaterialTheme.colorScheme.secondary,
+                                activeTrackColor = MaterialTheme.colorScheme.secondary,
+                                inactiveTrackColor = MaterialTheme.colorScheme.secondaryContainer,
+                            ),
+                            valueRange = 1f..totalGeriouLearned.toFloat(),
+                            onValueChange = { sliderWordPosition = it }
+                        )
+                        Text(text = sliderWordPosition.toInt().toString())
                     }
                 }
 
@@ -139,23 +137,17 @@ fun QuizStart(mainViewModel: MainViewModel, navController: NavHostController) {
                 Spacer(modifier = Modifier.height(16.dp))
             }
             item {
-                Button(onClick = {}) {
+                Button(
+                    onClick = { },
+                    modifier = Modifier.padding(start = 8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
+                    ),
+                ) {
                     Text(text = stringResource(id = R.string.start_quiz_btn))
                 }
             }
         }
-    }
-}
-
-@Composable
-fun TimePicker(selectedTime: Long, onTimeSelected: (Long) -> Unit) {
-    val context = LocalContext.current
-    val timePickerDialog = TimePickerDialog(
-        context, { _, hours, minutes ->
-            onTimeSelected(hours * 3600L + minutes * 60L)
-        }, 0, 0, true
-    )
-    Button(onClick = { timePickerDialog.show() }) {
-        Text(text = stringResource(id = R.string.time_limit_choose_quiz))
     }
 }
