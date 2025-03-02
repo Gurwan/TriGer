@@ -23,3 +23,12 @@ enum class QuizTarget(val value: String) {
     OLD_WORDS("Les mots les plus anciens"),
     LEVEL_LEARNING("Niveau d'apprentissage")
 }
+
+data class QuizSettings(
+    val type: QuizType,
+    val limit: QuizLimit,
+    val limitValue: Int,
+    val target: QuizTarget,
+    val currentStrike: Int,
+    val score: Int
+)

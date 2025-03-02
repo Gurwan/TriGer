@@ -11,6 +11,10 @@ import androidx.lifecycle.viewModelScope
 import com.okariastudio.triger.R
 import com.okariastudio.triger.data.model.Ger
 import com.okariastudio.triger.data.model.Quiz
+import com.okariastudio.triger.data.model.QuizLimit
+import com.okariastudio.triger.data.model.QuizSettings
+import com.okariastudio.triger.data.model.QuizTarget
+import com.okariastudio.triger.data.model.QuizType
 import com.okariastudio.triger.data.repository.GerRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -160,6 +164,31 @@ class MainViewModel(
             } catch (e: Exception) {
                 Log.e("Sync", "Error synchronizing data: ${e.message}")
             }
+        }
+    }
+
+    fun startQuiz(quizType: QuizType, quizLimit: QuizLimit, limitValue: Int, target: QuizTarget) {
+        val quizSettings = QuizSettings(
+            type = quizType,
+            limit = quizLimit,
+            limitValue = limitValue,
+            target = target,
+            currentStrike = 0,
+            score = 0
+        )
+
+        viewModelScope.launch {
+            val limit = if (quizLimit == QuizLimit.N_WORDS) limitValue else Int.MAX_VALUE
+            val gers = when (target) {
+                QuizTarget.ALL_WORDS -> gerRepository.getLearnedWords(limit)
+                QuizTarget.RECENT_WORDS -> gerRepository.getRecentLearnedWords(limit)
+                QuizTarget.OLD_WORDS -> gerRepository.getOldLearnedWords(limit)
+                QuizTarget.LEVEL_LEARNING -> gerRepository.getUnknownLearnedWords(limit)
+            }
+
+            //check to go back here after quiz ? check tracking, learning level...
+            fetchWrongGersForQuiz(clickedGer.id)
+            navController.navigate("quizChoose")
         }
     }
 
