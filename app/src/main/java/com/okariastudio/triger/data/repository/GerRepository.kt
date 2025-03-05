@@ -3,7 +3,6 @@ package com.okariastudio.triger.data.repository
 import com.okariastudio.triger.data.dao.GerDao
 import com.okariastudio.triger.data.firebase.FirebaseService
 import com.okariastudio.triger.data.model.Ger
-import com.okariastudio.triger.data.model.QuizLimit
 import com.okariastudio.triger.data.model.QuizTarget
 
 class GerRepository(private val gerDao: GerDao, private val firebaseService: FirebaseService) {
@@ -12,7 +11,8 @@ class GerRepository(private val gerDao: GerDao, private val firebaseService: Fir
 
     suspend fun getGersByIds(ids: List<String>) = gerDao.getGersByIds(ids)
 
-    suspend fun getWrongGerForQuiz(idGoodGer: String): List<Ger> = gerDao.getWrongGerForQuiz(idGoodGer)
+    suspend fun getWrongGerForQuiz(idGoodGer: String): List<Ger> =
+        gerDao.getWrongGerForQuiz(idGoodGer)
 
     suspend fun getGeriouInBrezhodex(): List<Ger> = gerDao.getLearnedWords(Int.MAX_VALUE)
 

@@ -53,6 +53,12 @@ class MainViewModel(
     private val _totalGeriouLearned = MutableLiveData<Int>()
     val totalGeriouLearned: LiveData<Int> = _totalGeriouLearned
 
+    private val _quizSettings = MutableLiveData<QuizSettings>()
+    val currentQuizSettings: LiveData<QuizSettings> = _quizSettings
+
+    private val _quizGeriou = MutableLiveData<List<Ger>>()
+    val currentQuizGeriou: LiveData<List<Ger>> = _quizGeriou
+
 
     init {
         viewModelScope.launch {
@@ -87,7 +93,8 @@ class MainViewModel(
     @SuppressLint("DefaultLocale")
     fun getStatistics(context: Context) {
         viewModelScope.launch {
-            val gerLearnedNumber = gerRepository.getLearnedWords(Int.MAX_VALUE, QuizTarget.ALL_WORDS).size
+            val gerLearnedNumber =
+                gerRepository.getLearnedWords(Int.MAX_VALUE, QuizTarget.ALL_WORDS).size
             val gerNumber = gerRepository.getIdsGeriou().size
             val averageLevel = gerRepository.getAverageLevel()
             _statistiques.value = listOf(
@@ -168,7 +175,7 @@ class MainViewModel(
     }
 
     fun startQuiz(quizType: QuizType, quizLimit: QuizLimit, limitValue: Int, target: QuizTarget) {
-        val quizSettings = QuizSettings(
+        _quizSettings.value = QuizSettings(
             type = quizType,
             limit = quizLimit,
             limitValue = limitValue,
@@ -179,11 +186,7 @@ class MainViewModel(
 
         viewModelScope.launch {
             val limit = if (quizLimit == QuizLimit.N_WORDS) limitValue else Int.MAX_VALUE
-            val gers = gerRepository.getLearnedWords(limit, target)
-
-            //check to go back here after quiz ? check tracking, learning level...
-            //fetchWrongGersForQuiz(clickedGer.id)
-            //navController.navigate("quizChoose")
+            _quizGeriou.value = gerRepository.getLearnedWords(limit, target)
         }
     }
 
