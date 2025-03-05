@@ -27,8 +27,17 @@ interface GerDao {
     @Query("SELECT * FROM ger WHERE id != :idGoodGer LIMIT 7")
     suspend fun getWrongGerForQuiz(idGoodGer: String): List<Ger>
 
-    @Query("SELECT * FROM ger WHERE isLearned = 1")
-    suspend fun getLearnedWords(): List<Ger>
+    @Query("SELECT * FROM ger WHERE isLearned = 1 ORDER BY RANDOM() LIMIT :limitValue")
+    suspend fun getLearnedWords(limitValue: Int): List<Ger>
+
+    @Query("SELECT * FROM ger WHERE isLearned = 1 ORDER BY lastLearningDate DESC LIMIT :limitValue")
+    suspend fun getLearnedWordsRecent(limitValue: Int): List<Ger>
+
+    @Query("SELECT * FROM ger WHERE isLearned = 1 ORDER BY lastLearningDate ASC LIMIT :limitValue")
+    suspend fun getLearnedWordsOld(limitValue: Int): List<Ger>
+
+    @Query("SELECT * FROM ger WHERE isLearned = 1 ORDER BY levelLearnings ASC LIMIT :limitValue")
+    suspend fun getLearnedWordsUnknown(limitValue: Int): List<Ger>
 
     @Query("SELECT * FROM ger WHERE isLearned = 0 LIMIT 3")
     suspend fun getGerForToday(): List<Ger>

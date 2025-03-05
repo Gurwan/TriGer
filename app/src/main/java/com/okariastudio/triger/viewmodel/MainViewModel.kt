@@ -63,7 +63,7 @@ class MainViewModel(
 
     fun fetchTotalGeriouLearned() {
         viewModelScope.launch {
-            val geriou = gerRepository.getLearnedWords()
+            val geriou = gerRepository.getLearnedWords(Int.MAX_VALUE, QuizTarget.ALL_WORDS)
             _totalGeriouLearned.postValue(geriou.size)
         }
     }
@@ -87,7 +87,7 @@ class MainViewModel(
     @SuppressLint("DefaultLocale")
     fun getStatistics(context: Context) {
         viewModelScope.launch {
-            val gerLearnedNumber = gerRepository.getLearnedWords().size
+            val gerLearnedNumber = gerRepository.getLearnedWords(Int.MAX_VALUE, QuizTarget.ALL_WORDS).size
             val gerNumber = gerRepository.getIdsGeriou().size
             val averageLevel = gerRepository.getAverageLevel()
             _statistiques.value = listOf(
@@ -179,16 +179,11 @@ class MainViewModel(
 
         viewModelScope.launch {
             val limit = if (quizLimit == QuizLimit.N_WORDS) limitValue else Int.MAX_VALUE
-            val gers = when (target) {
-                QuizTarget.ALL_WORDS -> gerRepository.getLearnedWords(limit)
-                QuizTarget.RECENT_WORDS -> gerRepository.getRecentLearnedWords(limit)
-                QuizTarget.OLD_WORDS -> gerRepository.getOldLearnedWords(limit)
-                QuizTarget.LEVEL_LEARNING -> gerRepository.getUnknownLearnedWords(limit)
-            }
+            val gers = gerRepository.getLearnedWords(limit, target)
 
             //check to go back here after quiz ? check tracking, learning level...
-            fetchWrongGersForQuiz(clickedGer.id)
-            navController.navigate("quizChoose")
+            //fetchWrongGersForQuiz(clickedGer.id)
+            //navController.navigate("quizChoose")
         }
     }
 
