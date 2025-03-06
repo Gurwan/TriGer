@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -15,7 +16,10 @@ import com.okariastudio.triger.QuizScreen
 import com.okariastudio.triger.QuizStart
 import com.okariastudio.triger.QuizWriteScreen
 import com.okariastudio.triger.data.firebase.Tracking
+import com.okariastudio.triger.data.model.QuizLimit
+import com.okariastudio.triger.data.model.QuizType
 import com.okariastudio.triger.viewmodel.MainViewModel
+import kotlin.random.Random
 
 @Composable
 fun NavigationGraph(
@@ -43,12 +47,28 @@ fun NavigationGraph(
         }
         composable("quizChoose") {
             val quizItem by mainViewModel.currentQuizItem.collectAsState()
+            val quizSettings by mainViewModel.currentQuizSettings.observeAsState()
 
             quizItem?.let {
                 QuizScreen(
                     quizItem = it,
                     onNext = {
-                        navController.navigate("quizWrite")
+                        if (quizSettings != null) {
+                            //upgrade current strike, score, numberDone, get new ger for quiz
+                            if (quizSettings!!.limit == QuizLimit.N_WORDS && quizSettings!!.numberDone < quizSettings!!.limitValue) {
+                                if (quizSettings!!.type == QuizType.CHOICE) {
+                                    navController.navigate("quizChoice")
+                                } else {
+                                    if (Random.nextBoolean()) {
+                                        navController.navigate("quizWrite")
+                                    } else {
+                                        navController.navigate("quizChoice")
+                                    }
+                                }
+                            }
+                        } else {
+                            navController.navigate("quizWrite")
+                        }
                     }
                 )
             } ?: run {
@@ -58,14 +78,30 @@ fun NavigationGraph(
         composable("quizWrite") {
             val quizItem by mainViewModel.currentQuizItem.collectAsState()
             val tracking = Tracking(context = navController.context)
+            val quizSettings by mainViewModel.currentQuizSettings.observeAsState()
 
             quizItem?.let {
                 QuizWriteScreen(
                     quizItem = it,
                     onNext = {
-                        tracking.logGerLearned(it.exactWord?.breton ?: "")
-                        mainViewModel.validateQuiz(it)
-                        navController.navigate("brezhodex")
+                        if (quizSettings != null) {
+                            //upgrade current strike, score, numberDone, get new ger for quiz
+                            if (quizSettings!!.limit == QuizLimit.N_WORDS && quizSettings!!.numberDone < quizSettings!!.limitValue) {
+                                if (quizSettings!!.type == QuizType.WRITE) {
+                                    navController.navigate("quizWrite")
+                                } else {
+                                    if (Random.nextBoolean()) {
+                                        navController.navigate("quizWrite")
+                                    } else {
+                                        navController.navigate("quizChoice")
+                                    }
+                                }
+                            }
+                        } else {
+                            tracking.logGerLearned(it.exactWord?.breton ?: "")
+                            mainViewModel.validateQuiz(it)
+                            navController.navigate("brezhodex")
+                        }
                     }
                 )
             } ?: run {

@@ -181,9 +181,11 @@ class MainViewModel(
             limitValue = limitValue,
             target = target,
             currentStrike = 0,
-            score = 0
+            score = 0,
+            numberDone = 0
         )
 
+        //create object for first quiz currentQuizItem et update currentQuizGeriou lorsque currentQuizItem est crée
         viewModelScope.launch {
             val limit = if (quizLimit == QuizLimit.N_WORDS) limitValue else Int.MAX_VALUE
             _quizGeriou.value = gerRepository.getLearnedWords(limit, target)

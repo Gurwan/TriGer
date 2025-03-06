@@ -30,5 +30,6 @@ data class QuizSettings(
     val limitValue: Int,
     val target: QuizTarget,
     val currentStrike: Int,
-    val score: Int
+    val score: Int,
+    val numberDone: Int
 )
