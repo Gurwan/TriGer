@@ -54,8 +54,8 @@ fun NavigationGraph(
                     quizItem = it,
                     onNext = {
                         if (quizSettings != null) {
-                            //upgrade current strike, score, numberDone, get new ger for quiz
-                            if (quizSettings!!.limit == QuizLimit.N_WORDS && quizSettings!!.numberDone < quizSettings!!.limitValue) {
+                            mainViewModel.loopQuiz()
+                            if (quizSettings!!.limit == QuizLimit.N_WORDS && quizSettings!!.score < quizSettings!!.limitValue) {
                                 if (quizSettings!!.type == QuizType.CHOICE) {
                                     navController.navigate("quizChoice")
                                 } else {
@@ -65,6 +65,9 @@ fun NavigationGraph(
                                         navController.navigate("quizChoice")
                                     }
                                 }
+                            } else if (quizSettings!!.score == quizSettings!!.limitValue) {
+                                mainViewModel.finishQuiz()
+                                navController.navigate("brezhodex")
                             }
                         } else {
                             navController.navigate("quizWrite")
@@ -85,8 +88,8 @@ fun NavigationGraph(
                     quizItem = it,
                     onNext = {
                         if (quizSettings != null) {
-                            //upgrade current strike, score, numberDone, get new ger for quiz
-                            if (quizSettings!!.limit == QuizLimit.N_WORDS && quizSettings!!.numberDone < quizSettings!!.limitValue) {
+                            mainViewModel.loopQuiz()
+                            if (quizSettings!!.limit == QuizLimit.N_WORDS && quizSettings!!.score < quizSettings!!.limitValue) {
                                 if (quizSettings!!.type == QuizType.WRITE) {
                                     navController.navigate("quizWrite")
                                 } else {
@@ -96,6 +99,9 @@ fun NavigationGraph(
                                         navController.navigate("quizChoice")
                                     }
                                 }
+                            } else if (quizSettings!!.score == quizSettings!!.limitValue) {
+                                mainViewModel.finishQuiz()
+                                navController.navigate("brezhodex")
                             }
                         } else {
                             tracking.logGerLearned(it.exactWord?.breton ?: "")

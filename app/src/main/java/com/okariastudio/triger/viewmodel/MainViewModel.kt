@@ -53,11 +53,11 @@ class MainViewModel(
     private val _totalGeriouLearned = MutableLiveData<Int>()
     val totalGeriouLearned: LiveData<Int> = _totalGeriouLearned
 
-    private val _quizSettings = MutableLiveData<QuizSettings>()
-    val currentQuizSettings: LiveData<QuizSettings> = _quizSettings
+    private val _quizSettings = MutableLiveData<QuizSettings?>()
+    val currentQuizSettings: LiveData<QuizSettings?> = _quizSettings
 
-    private val _quizGeriou = MutableLiveData<List<Ger>>()
-    val currentQuizGeriou: LiveData<List<Ger>> = _quizGeriou
+    private val _quizGeriou = MutableLiveData<List<Ger>?>()
+    val currentQuizGeriou: LiveData<List<Ger>?> = _quizGeriou
 
 
     init {
@@ -180,16 +180,35 @@ class MainViewModel(
             limit = quizLimit,
             limitValue = limitValue,
             target = target,
-            currentStrike = 0,
             score = 0,
-            numberDone = 0
         )
 
-        //create object for first quiz currentQuizItem et update currentQuizGeriou lorsque currentQuizItem est crée
         viewModelScope.launch {
             val limit = if (quizLimit == QuizLimit.N_WORDS) limitValue else Int.MAX_VALUE
             _quizGeriou.value = gerRepository.getLearnedWords(limit, target)
+            loopQuiz(true)
         }
+    }
+
+    fun loopQuiz(firstTime: Boolean = false) {
+        val quizSettingsToUpdate: QuizSettings = _quizSettings.value!!
+        if (firstTime) {
+            quizSettingsToUpdate.score += 1
+        }
+        _quizSettings.value = quizSettingsToUpdate
+        val listGer = _quizGeriou.value?.toMutableList()
+        val randomGer = listGer?.random()
+        if (randomGer != null) {
+            fetchWrongGersForQuiz(randomGer.id)
+            listGer.remove(randomGer)
+            _quizGeriou.value = listGer.toList()
+        }
+    }
+
+    fun finishQuiz() {
+        _quizSettings.value = null
+        _currentQuizItem.value = null
+        _quizGeriou.value = null
     }
 
     private fun setDarkMode(isDark: Boolean) {
