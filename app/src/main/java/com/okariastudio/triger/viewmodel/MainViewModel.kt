@@ -197,12 +197,14 @@ class MainViewModel(
         }
         _quizSettings.value = quizSettingsToUpdate
         val listGer = _quizGeriou.value?.toMutableList()
-        val randomGer = listGer?.random()
-        if (randomGer != null) {
-            fetchWrongGersForQuiz(randomGer.id)
-            listGer.remove(randomGer)
-            _quizGeriou.value = listGer.toList()
+        if (listGer.isNullOrEmpty()) {
+            finishQuiz()
+            return
         }
+        val randomGer = listGer.random()
+        fetchWrongGersForQuiz(randomGer.id)
+        listGer.remove(randomGer)
+        _quizGeriou.value = listGer.toList()
     }
 
     fun finishQuiz() {

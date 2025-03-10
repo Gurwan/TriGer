@@ -53,24 +53,30 @@ fun NavigationGraph(
                 QuizScreen(
                     quizItem = it,
                     onNext = {
-                        if (quizSettings != null) {
-                            mainViewModel.loopQuiz()
-                            if (quizSettings!!.limit == QuizLimit.N_WORDS && quizSettings!!.score < quizSettings!!.limitValue) {
-                                if (quizSettings!!.type == QuizType.CHOICE) {
-                                    navController.navigate("quizChoice")
-                                } else {
-                                    if (Random.nextBoolean()) {
-                                        navController.navigate("quizWrite")
-                                    } else {
-                                        navController.navigate("quizChoice")
-                                    }
-                                }
-                            } else if (quizSettings!!.score == quizSettings!!.limitValue) {
+                        mainViewModel.validateQuiz(it)
+                        mainViewModel.loopQuiz()
+                        when (quizSettings) {
+                            null -> {
                                 mainViewModel.finishQuiz()
                                 navController.navigate("brezhodex")
                             }
-                        } else {
-                            navController.navigate("quizWrite")
+
+                            else -> {
+                                if (quizSettings?.limit == QuizLimit.N_WORDS && quizSettings!!.score < quizSettings!!.limitValue) {
+                                    if (quizSettings!!.type == QuizType.CHOICE) {
+                                        navController.navigate("quizChoose")
+                                    } else {
+                                        if (Random.nextBoolean()) {
+                                            navController.navigate("quizWrite")
+                                        } else {
+                                            navController.navigate("quizChoose")
+                                        }
+                                    }
+                                } else if (quizSettings!!.score == quizSettings!!.limitValue) {
+                                    mainViewModel.finishQuiz()
+                                    navController.navigate("brezhodex")
+                                }
+                            }
                         }
                     }
                 )
@@ -87,26 +93,30 @@ fun NavigationGraph(
                 QuizWriteScreen(
                     quizItem = it,
                     onNext = {
-                        if (quizSettings != null) {
-                            mainViewModel.loopQuiz()
-                            if (quizSettings!!.limit == QuizLimit.N_WORDS && quizSettings!!.score < quizSettings!!.limitValue) {
-                                if (quizSettings!!.type == QuizType.WRITE) {
-                                    navController.navigate("quizWrite")
-                                } else {
-                                    if (Random.nextBoolean()) {
-                                        navController.navigate("quizWrite")
-                                    } else {
-                                        navController.navigate("quizChoice")
-                                    }
-                                }
-                            } else if (quizSettings!!.score == quizSettings!!.limitValue) {
+                        mainViewModel.validateQuiz(it)
+                        mainViewModel.loopQuiz()
+                        when (quizSettings) {
+                            null -> {
                                 mainViewModel.finishQuiz()
                                 navController.navigate("brezhodex")
                             }
-                        } else {
-                            tracking.logGerLearned(it.exactWord?.breton ?: "")
-                            mainViewModel.validateQuiz(it)
-                            navController.navigate("brezhodex")
+
+                            else -> {
+                                if (quizSettings?.limit == QuizLimit.N_WORDS && quizSettings!!.score < quizSettings!!.limitValue) {
+                                    if (quizSettings!!.type == QuizType.WRITE) {
+                                        navController.navigate("quizWrite")
+                                    } else {
+                                        if (Random.nextBoolean()) {
+                                            navController.navigate("quizWrite")
+                                        } else {
+                                            navController.navigate("quizChoose")
+                                        }
+                                    }
+                                } else if (quizSettings!!.score == quizSettings!!.limitValue) {
+                                    mainViewModel.finishQuiz()
+                                    navController.navigate("brezhodex")
+                                }
+                            }
                         }
                     }
                 )
