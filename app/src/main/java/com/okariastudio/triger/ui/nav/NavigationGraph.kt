@@ -14,6 +14,7 @@ import com.okariastudio.triger.BrezhodexScreen
 import com.okariastudio.triger.DeskinScreen
 import com.okariastudio.triger.QuizScreen
 import com.okariastudio.triger.QuizStart
+import com.okariastudio.triger.QuizSummary
 import com.okariastudio.triger.QuizWriteScreen
 import com.okariastudio.triger.data.firebase.Tracking
 import com.okariastudio.triger.data.model.QuizLimit
@@ -53,30 +54,32 @@ fun NavigationGraph(
                 QuizScreen(
                     quizItem = it,
                     onNext = {
-                        mainViewModel.validateQuiz(it)
-                        mainViewModel.loopQuiz()
-                        when (quizSettings) {
-                            null -> {
-                                mainViewModel.finishQuiz()
-                                navController.navigate("brezhodex")
-                            }
-
-                            else -> {
-                                if (quizSettings?.limit == QuizLimit.N_WORDS && quizSettings!!.score < quizSettings!!.limitValue) {
-                                    if (quizSettings!!.type == QuizType.CHOICE) {
-                                        navController.navigate("quizChoose")
-                                    } else {
-                                        if (Random.nextBoolean()) {
-                                            navController.navigate("quizWrite")
-                                        } else {
-                                            navController.navigate("quizChoose")
-                                        }
-                                    }
-                                } else if (quizSettings!!.score == quizSettings!!.limitValue) {
+                        if (quizSettings != null) {
+                            when (mainViewModel.loopQuiz()) {
+                                false -> {
                                     mainViewModel.finishQuiz()
-                                    navController.navigate("brezhodex")
+                                    navController.navigate("quizSummary")
+                                }
+
+                                true -> {
+                                    if (quizSettings?.limit == QuizLimit.N_WORDS && quizSettings!!.score < quizSettings!!.limitValue) {
+                                        if (quizSettings!!.type == QuizType.CHOICE) {
+                                            navController.navigate("quizChoose")
+                                        } else {
+                                            if (Random.nextBoolean()) {
+                                                navController.navigate("quizWrite")
+                                            } else {
+                                                navController.navigate("quizChoose")
+                                            }
+                                        }
+                                    } else if (quizSettings!!.score == quizSettings!!.limitValue) {
+                                        mainViewModel.finishQuiz()
+                                        navController.navigate("brezhodex")
+                                    }
                                 }
                             }
+                        } else {
+                            navController.navigate("quizWrite")
                         }
                     }
                 )
@@ -94,35 +97,41 @@ fun NavigationGraph(
                     quizItem = it,
                     onNext = {
                         mainViewModel.validateQuiz(it)
-                        mainViewModel.loopQuiz()
-                        when (quizSettings) {
-                            null -> {
-                                mainViewModel.finishQuiz()
-                                navController.navigate("brezhodex")
-                            }
+                        if (quizSettings != null) {
+                            when (mainViewModel.loopQuiz()) {
+                                false -> {
+                                    mainViewModel.finishQuiz()
+                                    navController.navigate("quizSummary")
+                                }
 
-                            else -> {
-                                if (quizSettings?.limit == QuizLimit.N_WORDS && quizSettings!!.score < quizSettings!!.limitValue) {
-                                    if (quizSettings!!.type == QuizType.WRITE) {
-                                        navController.navigate("quizWrite")
-                                    } else {
-                                        if (Random.nextBoolean()) {
+                                true -> {
+                                    if (quizSettings?.limit == QuizLimit.N_WORDS && quizSettings!!.score < quizSettings!!.limitValue) {
+                                        if (quizSettings!!.type == QuizType.WRITE) {
                                             navController.navigate("quizWrite")
                                         } else {
-                                            navController.navigate("quizChoose")
+                                            if (Random.nextBoolean()) {
+                                                navController.navigate("quizWrite")
+                                            } else {
+                                                navController.navigate("quizChoose")
+                                            }
                                         }
+                                    } else if (quizSettings!!.score == quizSettings!!.limitValue) {
+                                        mainViewModel.finishQuiz()
+                                        navController.navigate("brezhodex")
                                     }
-                                } else if (quizSettings!!.score == quizSettings!!.limitValue) {
-                                    mainViewModel.finishQuiz()
-                                    navController.navigate("brezhodex")
                                 }
                             }
+                        } else {
+                            navController.navigate("brezhodex")
                         }
                     }
                 )
             } ?: run {
                 navController.navigate("deskiñ")
             }
+        }
+        composable("quizSummary") {
+            QuizSummary(mainViewModel, navController)
         }
     }
 }

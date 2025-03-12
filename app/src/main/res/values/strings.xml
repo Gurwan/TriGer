@@ -51,5 +51,7 @@
     <string name="time_limit_choose_quiz">Sélectionner le temps</string>
     <string name="type_quiz_label">Choix du type de Quiz</string>
     <string name="start_quiz_btn">Lancer le Quiz</string>
+    <string name="end_quiz_btn">Finir le Quiz</string>
     <string name="quiz">Quiz</string>
+    <string name="quiz_result">Résultats du quiz</string>
 </resources>

@@ -190,7 +190,7 @@ class MainViewModel(
         }
     }
 
-    fun loopQuiz(firstTime: Boolean = false) {
+    fun loopQuiz(firstTime: Boolean = false): Boolean {
         val quizSettingsToUpdate: QuizSettings = _quizSettings.value!!
         if (firstTime) {
             quizSettingsToUpdate.score += 1
@@ -199,12 +199,13 @@ class MainViewModel(
         val listGer = _quizGeriou.value?.toMutableList()
         if (listGer.isNullOrEmpty()) {
             finishQuiz()
-            return
+            return false
         }
         val randomGer = listGer.random()
         fetchWrongGersForQuiz(randomGer.id)
         listGer.remove(randomGer)
         _quizGeriou.value = listGer.toList()
+        return true
     }
 
     fun finishQuiz() {
