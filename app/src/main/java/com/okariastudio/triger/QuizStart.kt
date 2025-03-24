@@ -33,6 +33,7 @@ import com.okariastudio.triger.data.model.QuizLimit
 import com.okariastudio.triger.data.model.QuizTarget
 import com.okariastudio.triger.data.model.QuizType
 import com.okariastudio.triger.viewmodel.MainViewModel
+import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -148,6 +149,12 @@ fun QuizStart(mainViewModel: MainViewModel, navController: NavHostController) {
                         )
                         if (quizType == QuizType.WRITE) {
                             navController.navigate("quizWrite")
+                        } else if (quizType == QuizType.BOTH) {
+                            if (Random.nextBoolean()) {
+                                navController.navigate("quizWrite")
+                            } else {
+                                navController.navigate("quizChoose")
+                            }
                         } else {
                             navController.navigate("quizChoose")
                         }

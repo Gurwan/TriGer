@@ -84,7 +84,11 @@ fun QuizScreen(quizItem: Quiz, onNext: () -> Unit) {
         if (showNextButton) {
             Spacer(modifier = Modifier.height(24.dp))
             Button(
-                onClick = onNext,
+                onClick = {
+                    selectedWord = null
+                    showNextButton = false
+                    onNext()
+                },
                 modifier = Modifier.padding(start = 8.dp),
                 colors = ButtonDefaults.buttonColors(
                     MaterialTheme.colorScheme.surface

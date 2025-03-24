@@ -113,7 +113,11 @@ fun QuizWriteScreen(
                 modifier = Modifier.padding(vertical = 16.dp)
             )
             Button(
-                onClick = onNext,
+                onClick = {
+                    userInput = ""
+                    isCorrectAnswer = false
+                    onNext()
+                },
                 modifier = Modifier.padding(start = 8.dp),
                 colors = ButtonDefaults.buttonColors(
                     MaterialTheme.colorScheme.surface

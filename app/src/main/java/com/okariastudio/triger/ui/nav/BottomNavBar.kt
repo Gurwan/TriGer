@@ -12,9 +12,10 @@ import androidx.compose.ui.res.vectorResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.okariastudio.triger.R
+import com.okariastudio.triger.viewmodel.MainViewModel
 
 @Composable
-fun BottomNavBar(navController: NavHostController) {
+fun BottomNavBar(navController: NavHostController, mainViewModel: MainViewModel) {
     BottomNavigation(
         backgroundColor = MaterialTheme.colorScheme.surface,
         contentColor = MaterialTheme.colorScheme.onSurface
@@ -24,7 +25,7 @@ fun BottomNavBar(navController: NavHostController) {
 
         BottomNavigationItem(
             selected = currentRoute == "Deskiñ",
-            onClick = { navController.navigate("deskiñ") },
+            onClick = { mainViewModel.finishQuiz(); navController.navigate("deskiñ") },
             icon = {
                 Icon(
                     ImageVector.vectorResource(id = R.drawable.ic_deskin),
@@ -37,7 +38,7 @@ fun BottomNavBar(navController: NavHostController) {
         )
         BottomNavigationItem(
             selected = currentRoute == "Brezhodex",
-            onClick = { navController.navigate("brezhodex") },
+            onClick = { mainViewModel.finishQuiz(); navController.navigate("brezhodex") },
             icon = {
                 Icon(
                     ImageVector.vectorResource(id = R.drawable.ic_brezhodex),
@@ -50,7 +51,7 @@ fun BottomNavBar(navController: NavHostController) {
         )
         BottomNavigationItem(
             selected = currentRoute == "Quiz",
-            onClick = { navController.navigate("quiz") },
+            onClick = { mainViewModel.finishQuiz(); navController.navigate("quiz") },
             icon = {
                 Icon(
                     ImageVector.vectorResource(id = R.drawable.ic_quiz),
@@ -63,7 +64,7 @@ fun BottomNavBar(navController: NavHostController) {
         )
         BottomNavigationItem(
             selected = currentRoute == "Arventennoù",
-            onClick = { navController.navigate("arventennoù") },
+            onClick = { mainViewModel.finishQuiz(); navController.navigate("arventennoù") },
             icon = {
                 Icon(
                     ImageVector.vectorResource(id = R.drawable.ic_arventennou),

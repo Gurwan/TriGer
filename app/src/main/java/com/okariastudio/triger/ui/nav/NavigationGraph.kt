@@ -62,7 +62,7 @@ fun NavigationGraph(
                                 }
 
                                 true -> {
-                                    if (quizSettings?.limit == QuizLimit.N_WORDS && quizSettings!!.score < quizSettings!!.limitValue) {
+                                    if (quizSettings?.limit == QuizLimit.NO_LIMIT || (quizSettings?.limit == QuizLimit.N_WORDS && quizSettings!!.score < quizSettings!!.limitValue)) {
                                         if (quizSettings!!.type == QuizType.CHOICE) {
                                             navController.navigate("quizChoose")
                                         } else {
@@ -89,7 +89,6 @@ fun NavigationGraph(
         }
         composable("quizWrite") {
             val quizItem by mainViewModel.currentQuizItem.collectAsState()
-            val tracking = Tracking(context = navController.context)
             val quizSettings by mainViewModel.currentQuizSettings.observeAsState()
 
             quizItem?.let {
@@ -105,7 +104,7 @@ fun NavigationGraph(
                                 }
 
                                 true -> {
-                                    if (quizSettings?.limit == QuizLimit.N_WORDS && quizSettings!!.score < quizSettings!!.limitValue) {
+                                    if (quizSettings?.limit == QuizLimit.NO_LIMIT || (quizSettings?.limit == QuizLimit.N_WORDS && quizSettings!!.score < quizSettings!!.limitValue)) {
                                         if (quizSettings!!.type == QuizType.WRITE) {
                                             navController.navigate("quizWrite")
                                         } else {
