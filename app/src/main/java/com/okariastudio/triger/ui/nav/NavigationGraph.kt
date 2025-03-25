@@ -53,6 +53,11 @@ fun NavigationGraph(
             quizItem?.let {
                 QuizScreen(
                     quizItem = it,
+                    stop = {
+                        mainViewModel.finishQuiz()
+                        navController.navigate("quizSummary")
+                    },
+                    unlimitedQuiz = quizSettings?.limit == QuizLimit.NO_LIMIT,
                     onNext = {
                         if (quizSettings != null) {
                             when (mainViewModel.loopQuiz()) {
@@ -94,6 +99,11 @@ fun NavigationGraph(
             quizItem?.let {
                 QuizWriteScreen(
                     quizItem = it,
+                    stop = {
+                        mainViewModel.finishQuiz()
+                        navController.navigate("quizSummary")
+                    },
+                    unlimitedQuiz = quizSettings?.limit == QuizLimit.NO_LIMIT,
                     onNext = {
                         mainViewModel.validateQuiz(it)
                         if (quizSettings != null) {

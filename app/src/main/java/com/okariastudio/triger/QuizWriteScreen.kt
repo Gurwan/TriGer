@@ -26,7 +26,9 @@ import com.okariastudio.triger.data.model.Quiz
 fun QuizWriteScreen(
     quizItem: Quiz,
     onNext: () -> Unit,
-    modifier: Modifier = Modifier
+    stop: () -> Unit,
+    modifier: Modifier = Modifier,
+    unlimitedQuiz: Boolean = false,
 ) {
     var userInput by remember { mutableStateOf("") }
     var isCorrectAnswer by remember { mutableStateOf(false) }
@@ -88,7 +90,10 @@ fun QuizWriteScreen(
                 )
             },
             modifier = Modifier.fillMaxWidth(),
-            isError = !userInput.equals(quizItem.exactWord?.breton ?: "", ignoreCase = true) && userInput.isNotEmpty()
+            isError = !userInput.equals(
+                quizItem.exactWord?.breton ?: "",
+                ignoreCase = true
+            ) && userInput.isNotEmpty()
         )
 
         Button(
@@ -112,18 +117,45 @@ fun QuizWriteScreen(
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(vertical = 16.dp)
             )
-            Button(
-                onClick = {
-                    userInput = ""
-                    isCorrectAnswer = false
-                    onNext()
-                },
-                modifier = Modifier.padding(start = 8.dp),
-                colors = ButtonDefaults.buttonColors(
-                    MaterialTheme.colorScheme.surface
-                )
+            Row(
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Text(text = stringResource(id = R.string.suivant), color = MaterialTheme.colorScheme.onSurface)
+                Button(
+                    onClick = {
+                        userInput = ""
+                        isCorrectAnswer = false
+                        onNext()
+                    },
+                    modifier = Modifier.padding(start = 8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        MaterialTheme.colorScheme.surface
+                    )
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.suivant),
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+
+                if (unlimitedQuiz) {
+                    Button(
+                        onClick = {
+                            userInput = ""
+                            isCorrectAnswer = false
+                            stop()
+                        },
+                        modifier = Modifier.padding(start = 8.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            MaterialTheme.colorScheme.surface
+                        )
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.end_quiz_btn),
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                }
             }
         }
     }

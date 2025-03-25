@@ -2,6 +2,7 @@ package com.okariastudio.triger
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,7 +25,12 @@ import com.okariastudio.triger.data.model.Ger
 import com.okariastudio.triger.data.model.Quiz
 
 @Composable
-fun QuizScreen(quizItem: Quiz, onNext: () -> Unit) {
+fun QuizScreen(
+    quizItem: Quiz,
+    onNext: () -> Unit,
+    stop: () -> Unit,
+    unlimitedQuiz: Boolean = false
+) {
 
     val words = remember(
         quizItem.words,
@@ -83,18 +89,42 @@ fun QuizScreen(quizItem: Quiz, onNext: () -> Unit) {
 
         if (showNextButton) {
             Spacer(modifier = Modifier.height(24.dp))
-            Button(
-                onClick = {
-                    selectedWord = null
-                    showNextButton = false
-                    onNext()
-                },
-                modifier = Modifier.padding(start = 8.dp),
-                colors = ButtonDefaults.buttonColors(
-                    MaterialTheme.colorScheme.surface
-                )
-            ) {
-                Text(text = stringResource(id = R.string.suivant), color = MaterialTheme.colorScheme.onSurface)
+            Row {
+                Button(
+                    onClick = {
+                        selectedWord = null
+                        showNextButton = false
+                        onNext()
+                    },
+                    modifier = Modifier.padding(start = 8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        MaterialTheme.colorScheme.surface
+                    )
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.suivant),
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                }
+
+                if (unlimitedQuiz) {
+                    Button(
+                        onClick = {
+                            selectedWord = null
+                            showNextButton = false
+                            stop()
+                        },
+                        modifier = Modifier.padding(start = 8.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            MaterialTheme.colorScheme.surface
+                        )
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.end_quiz_btn),
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                }
             }
         }
     }
