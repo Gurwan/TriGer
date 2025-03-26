@@ -37,6 +37,7 @@ fun GerList(
                             .weight(1f)
                             .padding(4.dp),
                         onDeskinClick = { clickedGer ->
+                            mainViewModel.startSingleQuiz()
                             mainViewModel.fetchWrongGersForQuiz(clickedGer.id)
                             navController.navigate("quizChoose")
                             println("Deskin clicked for ${clickedGer.breton}")
@@ -58,6 +59,7 @@ fun GerList(
             GerCard(
                 ger = ger,
                 onDeskinClick = { clickedGer ->
+                    mainViewModel.startSingleQuiz()
                     mainViewModel.fetchWrongGersForQuiz(clickedGer.id)
                     navController.navigate("quizChoose")
                     println("Deskin clicked for ${clickedGer.breton}")

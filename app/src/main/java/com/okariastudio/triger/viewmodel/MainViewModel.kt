@@ -186,19 +186,22 @@ class MainViewModel(
         viewModelScope.launch {
             val limit = if (quizLimit == QuizLimit.N_WORDS) limitValue else Int.MAX_VALUE
             _quizGeriou.value = gerRepository.getLearnedWords(limit, target)
-            loopQuiz(true)
+            loopQuiz(quizLimit == QuizLimit.N_WORDS)
         }
     }
 
-    fun loopQuiz(firstTime: Boolean = false): Boolean {
+    fun startSingleQuiz() {
+        _quizSettings.value = null
+    }
+
+    fun loopQuiz(launchLimitN: Boolean = false): Boolean {
         val quizSettingsToUpdate: QuizSettings = _quizSettings.value!!
-        if (firstTime) {
+        if (!launchLimitN) {
             quizSettingsToUpdate.score += 1
         }
         _quizSettings.value = quizSettingsToUpdate
         val listGer = _quizGeriou.value?.toMutableList()
         if (listGer.isNullOrEmpty()) {
-            finishQuiz()
             return false
         }
         val randomGer = listGer.random()
@@ -206,12 +209,6 @@ class MainViewModel(
         listGer.remove(randomGer)
         _quizGeriou.value = listGer.toList()
         return true
-    }
-
-    fun finishQuiz() {
-        _quizSettings.value = null
-        _currentQuizItem.value = null
-        _quizGeriou.value = null
     }
 
     private fun setDarkMode(isDark: Boolean) {

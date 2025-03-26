@@ -16,7 +16,7 @@ fun MainContent(
 ) {
     val navController = rememberNavController()
     Scaffold(
-        bottomBar = { BottomNavBar(navController, mainViewModel) }
+        bottomBar = { BottomNavBar(navController) }
     ) { innerPadding ->
         NavigationGraph(
             navController = navController,

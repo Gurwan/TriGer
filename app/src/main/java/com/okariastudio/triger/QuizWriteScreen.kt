@@ -121,22 +121,6 @@ fun QuizWriteScreen(
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Button(
-                    onClick = {
-                        userInput = ""
-                        isCorrectAnswer = false
-                        onNext()
-                    },
-                    modifier = Modifier.padding(start = 8.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        MaterialTheme.colorScheme.surface
-                    )
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.suivant),
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
 
                 if (unlimitedQuiz) {
                     Button(
@@ -155,6 +139,23 @@ fun QuizWriteScreen(
                             color = MaterialTheme.colorScheme.onSurface
                         )
                     }
+                }
+
+                Button(
+                    onClick = {
+                        userInput = ""
+                        isCorrectAnswer = false
+                        onNext()
+                    },
+                    modifier = Modifier.padding(start = 8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        MaterialTheme.colorScheme.surface
+                    )
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.suivant),
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
                 }
             }
         }

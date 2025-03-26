@@ -54,4 +54,6 @@
     <string name="end_quiz_btn">Finir le Quiz</string>
     <string name="quiz">Quiz</string>
     <string name="quiz_result">Résultats du quiz</string>
+    <string name="quiz_score">Score du quiz</string>
+    <string name="congratulations">Félicitations !</string>
 </resources>

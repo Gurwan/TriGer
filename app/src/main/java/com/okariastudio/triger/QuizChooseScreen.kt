@@ -90,22 +90,6 @@ fun QuizScreen(
         if (showNextButton) {
             Spacer(modifier = Modifier.height(24.dp))
             Row {
-                Button(
-                    onClick = {
-                        selectedWord = null
-                        showNextButton = false
-                        onNext()
-                    },
-                    modifier = Modifier.padding(start = 8.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        MaterialTheme.colorScheme.surface
-                    )
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.suivant),
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
 
                 if (unlimitedQuiz) {
                     Button(
@@ -124,6 +108,23 @@ fun QuizScreen(
                             color = MaterialTheme.colorScheme.onSurface
                         )
                     }
+                }
+
+                Button(
+                    onClick = {
+                        selectedWord = null
+                        showNextButton = false
+                        onNext()
+                    },
+                    modifier = Modifier.padding(start = 8.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        MaterialTheme.colorScheme.surface
+                    )
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.suivant),
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
                 }
             }
         }

@@ -54,7 +54,6 @@ fun NavigationGraph(
                 QuizScreen(
                     quizItem = it,
                     stop = {
-                        mainViewModel.finishQuiz()
                         navController.navigate("quizSummary")
                     },
                     unlimitedQuiz = quizSettings?.limit == QuizLimit.NO_LIMIT,
@@ -62,12 +61,11 @@ fun NavigationGraph(
                         if (quizSettings != null) {
                             when (mainViewModel.loopQuiz()) {
                                 false -> {
-                                    mainViewModel.finishQuiz()
                                     navController.navigate("quizSummary")
                                 }
 
                                 true -> {
-                                    if (quizSettings?.limit == QuizLimit.NO_LIMIT || (quizSettings?.limit == QuizLimit.N_WORDS && quizSettings!!.score < quizSettings!!.limitValue)) {
+                                    if (quizSettings?.limit == QuizLimit.NO_LIMIT || (quizSettings?.limit == QuizLimit.N_WORDS && quizSettings!!.score <= quizSettings!!.limitValue)) {
                                         if (quizSettings!!.type == QuizType.CHOICE) {
                                             navController.navigate("quizChoose")
                                         } else {
@@ -78,8 +76,7 @@ fun NavigationGraph(
                                             }
                                         }
                                     } else if (quizSettings!!.score == quizSettings!!.limitValue) {
-                                        mainViewModel.finishQuiz()
-                                        navController.navigate("brezhodex")
+                                        navController.navigate("quizSummary")
                                     }
                                 }
                             }
@@ -100,7 +97,7 @@ fun NavigationGraph(
                 QuizWriteScreen(
                     quizItem = it,
                     stop = {
-                        mainViewModel.finishQuiz()
+
                         navController.navigate("quizSummary")
                     },
                     unlimitedQuiz = quizSettings?.limit == QuizLimit.NO_LIMIT,
@@ -109,12 +106,11 @@ fun NavigationGraph(
                         if (quizSettings != null) {
                             when (mainViewModel.loopQuiz()) {
                                 false -> {
-                                    mainViewModel.finishQuiz()
                                     navController.navigate("quizSummary")
                                 }
 
                                 true -> {
-                                    if (quizSettings?.limit == QuizLimit.NO_LIMIT || (quizSettings?.limit == QuizLimit.N_WORDS && quizSettings!!.score < quizSettings!!.limitValue)) {
+                                    if (quizSettings?.limit == QuizLimit.NO_LIMIT || (quizSettings?.limit == QuizLimit.N_WORDS && quizSettings!!.score <= quizSettings!!.limitValue)) {
                                         if (quizSettings!!.type == QuizType.WRITE) {
                                             navController.navigate("quizWrite")
                                         } else {
@@ -125,8 +121,7 @@ fun NavigationGraph(
                                             }
                                         }
                                     } else if (quizSettings!!.score == quizSettings!!.limitValue) {
-                                        mainViewModel.finishQuiz()
-                                        navController.navigate("brezhodex")
+                                        navController.navigate("quizSummary")
                                     }
                                 }
                             }
