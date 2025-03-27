@@ -7,12 +7,16 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.okariastudio.triger.ui.nav.BottomNavBar
 import com.okariastudio.triger.ui.nav.NavigationGraph
-import com.okariastudio.triger.viewmodel.MainViewModel
+import com.okariastudio.triger.viewmodel.GerViewModel
+import com.okariastudio.triger.viewmodel.QuizViewModel
+import com.okariastudio.triger.viewmodel.SettingsViewModel
 
 @Composable
 fun MainContent(
     modifier: Modifier = Modifier,
-    mainViewModel: MainViewModel
+    quizViewModel: QuizViewModel,
+    settingsViewModel: SettingsViewModel,
+    gerViewModel: GerViewModel
 ) {
     val navController = rememberNavController()
     Scaffold(
@@ -21,7 +25,9 @@ fun MainContent(
         NavigationGraph(
             navController = navController,
             modifier = Modifier.padding(innerPadding),
-            mainViewModel = mainViewModel
+            quizViewModel = quizViewModel,
+            settingsViewModel = settingsViewModel,
+            gerViewModel = gerViewModel
         )
     }
 }

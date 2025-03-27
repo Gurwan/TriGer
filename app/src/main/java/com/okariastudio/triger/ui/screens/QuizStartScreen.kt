@@ -1,4 +1,4 @@
-package com.okariastudio.triger
+package com.okariastudio.triger.ui.screens
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -29,21 +29,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.okariastudio.triger.R
 import com.okariastudio.triger.data.model.QuizLimit
 import com.okariastudio.triger.data.model.QuizTarget
 import com.okariastudio.triger.data.model.QuizType
-import com.okariastudio.triger.viewmodel.MainViewModel
+import com.okariastudio.triger.viewmodel.QuizViewModel
 import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun QuizStart(mainViewModel: MainViewModel, navController: NavHostController) {
+fun QuizStartScreen(quizViewModel: QuizViewModel, navController: NavHostController) {
     var quizTarget by remember { mutableStateOf(QuizTarget.ALL_WORDS) }
     var quizLimitType by remember { mutableStateOf(QuizLimit.NO_LIMIT) }
     var sliderWordPosition by remember { mutableFloatStateOf(0f) }
     var quizType by remember { mutableStateOf(QuizType.BOTH) }
 
-    val totalGeriouLearned by mainViewModel.totalGeriouLearned.observeAsState(initial = 10)
+    val totalGeriouLearned by quizViewModel.totalGeriouLearned.observeAsState(initial = 10)
 
     Scaffold(
         topBar = {
@@ -141,7 +142,7 @@ fun QuizStart(mainViewModel: MainViewModel, navController: NavHostController) {
             item {
                 Button(
                     onClick = {
-                        mainViewModel.startQuiz(
+                        quizViewModel.startQuiz(
                             quizType,
                             quizLimitType,
                             sliderWordPosition.toInt(),

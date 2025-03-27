@@ -1,4 +1,4 @@
-package com.okariastudio.triger
+package com.okariastudio.triger.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.okariastudio.triger.R
 import com.okariastudio.triger.data.model.Quiz
 
 @Composable

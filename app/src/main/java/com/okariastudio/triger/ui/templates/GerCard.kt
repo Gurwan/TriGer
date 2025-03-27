@@ -61,6 +61,7 @@ fun GerCard(ger: Ger, modifier: Modifier = Modifier, onDeskinClick: (Ger) -> Uni
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.weight(1f)
                 )
+
                 Button(
                     onClick = { onDeskinClick(ger) },
                     modifier = Modifier.padding(start = 8.dp),
@@ -88,12 +89,15 @@ fun GerCard(ger: Ger, modifier: Modifier = Modifier, onDeskinClick: (Ger) -> Uni
                     contentDescription = "Drapeau français",
                     modifier = Modifier.size(24.dp)
                 )
+
                 Spacer(modifier = Modifier.width(4.dp))
+
                 Text(
                     text = ger.french,
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.weight(1f)
                 )
+
                 if (ger.isLearned) {
                     Text(
                         text = stringResource(
@@ -129,7 +133,7 @@ fun GerCard(ger: Ger, modifier: Modifier = Modifier, onDeskinClick: (Ger) -> Uni
 @Preview(showBackground = true)
 @Composable
 fun PreviewGerCard() {
-    TriGerTheme(mainViewModel = null){
+    TriGerTheme(settingsViewModel = null) {
         GerCard(
             ger = Ger(
                 id = "1",

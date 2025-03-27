@@ -9,49 +9,58 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.okariastudio.triger.ArventennouScreen
-import com.okariastudio.triger.BrezhodexScreen
-import com.okariastudio.triger.DeskinScreen
-import com.okariastudio.triger.QuizScreen
-import com.okariastudio.triger.QuizStart
-import com.okariastudio.triger.QuizSummary
-import com.okariastudio.triger.QuizWriteScreen
 import com.okariastudio.triger.data.firebase.Tracking
 import com.okariastudio.triger.data.model.QuizLimit
 import com.okariastudio.triger.data.model.QuizType
-import com.okariastudio.triger.viewmodel.MainViewModel
+import com.okariastudio.triger.ui.screens.ArventennouScreen
+import com.okariastudio.triger.ui.screens.BrezhodexScreen
+import com.okariastudio.triger.ui.screens.DeskinScreen
+import com.okariastudio.triger.ui.screens.QuizChooseScreen
+import com.okariastudio.triger.ui.screens.QuizStartScreen
+import com.okariastudio.triger.ui.screens.QuizSummaryScreen
+import com.okariastudio.triger.ui.screens.QuizWriteScreen
+import com.okariastudio.triger.viewmodel.GerViewModel
+import com.okariastudio.triger.viewmodel.QuizViewModel
+import com.okariastudio.triger.viewmodel.SettingsViewModel
 import kotlin.random.Random
 
 @Composable
 fun NavigationGraph(
     navController: NavHostController,
     modifier: Modifier = Modifier,
-    mainViewModel: MainViewModel
+    quizViewModel: QuizViewModel,
+    settingsViewModel: SettingsViewModel,
+    gerViewModel: GerViewModel
 ) {
     NavHost(navController, startDestination = "deskiñ", modifier = modifier) {
+
         composable("deskiñ") {
-            DeskinScreen(mainViewModel, navController)
+            DeskinScreen(gerViewModel, quizViewModel, navController)
         }
+
         composable("brezhodex") {
             val tracking = Tracking(context = navController.context)
-            BrezhodexScreen(mainViewModel, navController, tracking)
+            BrezhodexScreen(gerViewModel, quizViewModel, navController, tracking)
         }
+
         composable("arventennoù") {
-            ArventennouScreen(mainViewModel, navController)
+            ArventennouScreen(settingsViewModel, navController)
         }
+
         composable("quiz") {
             LaunchedEffect(Unit) {
-                mainViewModel.fetchTotalGeriouLearned()
+                quizViewModel.fetchTotalGeriouLearned()
             }
 
-            QuizStart(mainViewModel, navController)
+            QuizStartScreen(quizViewModel, navController)
         }
+
         composable("quizChoose") {
-            val quizItem by mainViewModel.currentQuizItem.collectAsState()
-            val quizSettings by mainViewModel.currentQuizSettings.observeAsState()
+            val quizItem by quizViewModel.currentQuizItem.collectAsState()
+            val quizSettings by quizViewModel.currentQuizSettings.observeAsState()
 
             quizItem?.let {
-                QuizScreen(
+                QuizChooseScreen(
                     quizItem = it,
                     stop = {
                         navController.navigate("quizSummary")
@@ -59,7 +68,7 @@ fun NavigationGraph(
                     unlimitedQuiz = quizSettings?.limit == QuizLimit.NO_LIMIT,
                     onNext = {
                         if (quizSettings != null) {
-                            when (mainViewModel.loopQuiz()) {
+                            when (quizViewModel.loopQuiz()) {
                                 false -> {
                                     navController.navigate("quizSummary")
                                 }
@@ -89,9 +98,11 @@ fun NavigationGraph(
                 navController.popBackStack()
             }
         }
+
         composable("quizWrite") {
-            val quizItem by mainViewModel.currentQuizItem.collectAsState()
-            val quizSettings by mainViewModel.currentQuizSettings.observeAsState()
+            val quizItem by quizViewModel.currentQuizItem.collectAsState()
+            val quizSettings by quizViewModel.currentQuizSettings.observeAsState()
+            val tracking = Tracking(context = navController.context)
 
             quizItem?.let {
                 QuizWriteScreen(
@@ -102,9 +113,9 @@ fun NavigationGraph(
                     },
                     unlimitedQuiz = quizSettings?.limit == QuizLimit.NO_LIMIT,
                     onNext = {
-                        mainViewModel.validateQuiz(it)
+                        quizViewModel.validateQuiz(it)
                         if (quizSettings != null) {
-                            when (mainViewModel.loopQuiz()) {
+                            when (quizViewModel.loopQuiz()) {
                                 false -> {
                                     navController.navigate("quizSummary")
                                 }
@@ -126,6 +137,7 @@ fun NavigationGraph(
                                 }
                             }
                         } else {
+                            it.exactWord?.breton?.let { ger -> tracking.logGerLearned(ger) }
                             navController.navigate("brezhodex")
                         }
                     }
@@ -134,8 +146,9 @@ fun NavigationGraph(
                 navController.navigate("deskiñ")
             }
         }
+
         composable("quizSummary") {
-            QuizSummary(mainViewModel, navController)
+            QuizSummaryScreen(quizViewModel, navController)
         }
     }
 }

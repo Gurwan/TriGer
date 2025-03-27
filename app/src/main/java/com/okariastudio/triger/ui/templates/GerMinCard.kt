@@ -41,6 +41,7 @@ fun GerMinCard(ger: Ger, modifier: Modifier = Modifier, onDeskinClick: (Ger) -> 
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
+
         modifier = modifier
             .height(IntrinsicSize.Min)
             .padding(8.dp)
@@ -100,7 +101,7 @@ fun GerMinCard(ger: Ger, modifier: Modifier = Modifier, onDeskinClick: (Ger) -> 
 @Preview(showBackground = true)
 @Composable
 fun PreviewGerMinCard() {
-    TriGerTheme(mainViewModel = null) {
+    TriGerTheme(settingsViewModel = null) {
         GerMinCard(
             ger = Ger(
                 id = "1",

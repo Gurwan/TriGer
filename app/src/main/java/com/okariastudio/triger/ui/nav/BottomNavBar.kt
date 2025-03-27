@@ -24,7 +24,7 @@ fun BottomNavBar(navController: NavHostController) {
 
         BottomNavigationItem(
             selected = currentRoute == "Deskiñ",
-            onClick = {  navController.navigate("deskiñ") },
+            onClick = { navController.navigate("deskiñ") },
             icon = {
                 Icon(
                     ImageVector.vectorResource(id = R.drawable.ic_deskin),
@@ -35,9 +35,10 @@ fun BottomNavBar(navController: NavHostController) {
             selectedContentColor = MaterialTheme.colorScheme.onBackground,
             unselectedContentColor = MaterialTheme.colorScheme.tertiary
         )
+
         BottomNavigationItem(
             selected = currentRoute == "Brezhodex",
-            onClick = {  navController.navigate("brezhodex") },
+            onClick = { navController.navigate("brezhodex") },
             icon = {
                 Icon(
                     ImageVector.vectorResource(id = R.drawable.ic_brezhodex),
@@ -48,6 +49,7 @@ fun BottomNavBar(navController: NavHostController) {
             selectedContentColor = MaterialTheme.colorScheme.onBackground,
             unselectedContentColor = MaterialTheme.colorScheme.tertiary
         )
+
         BottomNavigationItem(
             selected = currentRoute == "Quiz",
             onClick = { navController.navigate("quiz") },
@@ -61,9 +63,10 @@ fun BottomNavBar(navController: NavHostController) {
             selectedContentColor = MaterialTheme.colorScheme.onBackground,
             unselectedContentColor = MaterialTheme.colorScheme.tertiary
         )
+
         BottomNavigationItem(
             selected = currentRoute == "Arventennoù",
-            onClick = {  navController.navigate("arventennoù") },
+            onClick = { navController.navigate("arventennoù") },
             icon = {
                 Icon(
                     ImageVector.vectorResource(id = R.drawable.ic_arventennou),

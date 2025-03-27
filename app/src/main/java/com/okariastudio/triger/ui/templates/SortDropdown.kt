@@ -22,14 +22,17 @@ fun SortDropdown(
             onClick = { onApplySort(SortOption.BRETON) },
             text = { Text(text = stringResource(id = R.string.sort_by_breton), color = MaterialTheme.colorScheme.onSurface) },
         )
+
         DropdownMenuItem(
             onClick = { onApplySort(SortOption.FRANCAIS) },
             text = { Text(text = stringResource(id = R.string.sort_by_francais), color = MaterialTheme.colorScheme.onSurface) }
         )
+
         DropdownMenuItem(
             onClick = { onApplySort(SortOption.DATE) },
             text = { Text(text = stringResource(id = R.string.sort_by_date), color = MaterialTheme.colorScheme.onSurface) }
         )
+
         DropdownMenuItem(
             onClick = { onApplySort(SortOption.LEVEL) },
             text = { Text(text = stringResource(id = R.string.sort_by_level), color = MaterialTheme.colorScheme.onSurface) }

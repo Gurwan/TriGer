@@ -10,12 +10,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.okariastudio.triger.data.model.Ger
-import com.okariastudio.triger.viewmodel.MainViewModel
+import com.okariastudio.triger.viewmodel.QuizViewModel
 
 @Composable
 fun GerList(
     gerList: List<Ger>,
-    mainViewModel: MainViewModel,
+    quizViewModel: QuizViewModel,
     navController: NavHostController,
     minimal: Boolean = false
 ) {
@@ -37,8 +37,8 @@ fun GerList(
                             .weight(1f)
                             .padding(4.dp),
                         onDeskinClick = { clickedGer ->
-                            mainViewModel.startSingleQuiz()
-                            mainViewModel.fetchWrongGersForQuiz(clickedGer.id)
+                            quizViewModel.startSingleQuiz()
+                            quizViewModel.fetchWrongGersForQuiz(clickedGer.id)
                             navController.navigate("quizChoose")
                             println("Deskin clicked for ${clickedGer.breton}")
                         }
@@ -59,8 +59,8 @@ fun GerList(
             GerCard(
                 ger = ger,
                 onDeskinClick = { clickedGer ->
-                    mainViewModel.startSingleQuiz()
-                    mainViewModel.fetchWrongGersForQuiz(clickedGer.id)
+                    quizViewModel.startSingleQuiz()
+                    quizViewModel.fetchWrongGersForQuiz(clickedGer.id)
                     navController.navigate("quizChoose")
                     println("Deskin clicked for ${clickedGer.breton}")
                 }

@@ -78,6 +78,7 @@ fun StatisticsAccordion(statistics: List<Pair<String, Any>>) {
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onBackground
                         )
+
                         Text(
                             text = value.toString(),
                             style = MaterialTheme.typography.bodyMedium,

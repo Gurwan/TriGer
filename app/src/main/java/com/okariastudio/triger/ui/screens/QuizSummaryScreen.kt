@@ -1,4 +1,4 @@
-package com.okariastudio.triger
+package com.okariastudio.triger.ui.screens
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -25,13 +25,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.okariastudio.triger.viewmodel.MainViewModel
+import com.okariastudio.triger.R
+import com.okariastudio.triger.viewmodel.QuizViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun QuizSummary(mainViewModel: MainViewModel, navController: NavHostController) {
+fun QuizSummaryScreen(quizViewModel: QuizViewModel, navController: NavHostController) {
 
-    val quizSettings by mainViewModel.currentQuizSettings.observeAsState()
+    val quizSettings by quizViewModel.currentQuizSettings.observeAsState()
 
     Scaffold(
         topBar = {

@@ -37,38 +37,48 @@ fun FilterRange(
 
     AlertDialog(
         onDismissRequest = onDismiss,
+
         title = {
             Text(text = stringResource(id = R.string.filter_title))
         },
+
         text = {
             Column {
                 Text(
                     text = stringResource(id = R.string.select_level),
                     style = MaterialTheme.typography.bodyMedium
                 )
+
                 Spacer(modifier = Modifier.height(16.dp))
+
                 Text(
                     text = "Niveau : $rangeStart - $rangeEnd",
                     style = MaterialTheme.typography.bodyMedium
                 )
+
                 RangeSlider(
                     value = rangeStart.toFloat()..rangeEnd.toFloat(),
+
                     valueRange = minLevel.toFloat()..maxLevel.toFloat(),
+
                     onValueChange = { range ->
                         rangeStart = range.start.toInt()
                         rangeEnd = range.endInclusive.toInt()
                     },
+
                     onValueChangeFinished = {
                         filterRange = rangeStart..rangeEnd
                     }
                 )
             }
         },
+
         confirmButton = {
             TextButton(onClick = { onApplyRange(filterRange) }) {
                 Text(text = stringResource(id = R.string.apply))
             }
         },
+
         dismissButton = {
             TextButton(onClick = onDismiss) {
                 Text(text = stringResource(id = R.string.cancel))

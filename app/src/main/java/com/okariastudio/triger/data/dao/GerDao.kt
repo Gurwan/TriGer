@@ -45,9 +45,6 @@ interface GerDao {
     @Query("UPDATE ger SET isLearned = 1, levelLearnings = levelLearnings + 1, lastLearningDate = CURRENT_TIMESTAMP WHERE id = :id")
     suspend fun markAsLearned(id: String)
 
-    @Query("UPDATE ger SET isFavorite = :isFavorite WHERE id = :id")
-    suspend fun updateFavoriteStatus(id: Long, isFavorite: Boolean)
-
     @Query("SELECT AVG(levelLearnings) FROM ger WHERE isLearned = 1")
     suspend fun getAverageLevel(): Double
 

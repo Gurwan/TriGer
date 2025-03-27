@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
-import com.okariastudio.triger.viewmodel.MainViewModel
+import com.okariastudio.triger.viewmodel.SettingsViewModel
 
 val LightColorScheme = lightColorScheme(
     primary = Primary,
@@ -47,11 +47,11 @@ val DarkColorScheme = darkColorScheme(
 fun TriGerTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = true,
-    mainViewModel: MainViewModel?,
+    settingsViewModel: SettingsViewModel?,
     content: @Composable () -> Unit
 ) {
-    if(mainViewModel != null){
-        val isDarkTheme by mainViewModel.isDarkTheme.collectAsState(darkTheme)
+    if(settingsViewModel != null){
+        val isDarkTheme by settingsViewModel.isDarkTheme.collectAsState(darkTheme)
 
         val colorScheme = when {
             dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
